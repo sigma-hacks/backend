@@ -16,6 +16,7 @@ class RegisterController extends BaseController
     /**
      * Register api
      *
+     * @param Request $request
      * @return JsonResponse
      */
     public function register(Request $request): JsonResponse
@@ -59,7 +60,7 @@ class RegisterController extends BaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $isAttemptUser = Auth::attempt([
             'email' => $request->input('email'),
