@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(function () {
+    Route::get('test', [\App\Http\Controllers\TestingController::class, 'test'])->name('api.test');
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
