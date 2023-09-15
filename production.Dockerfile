@@ -31,7 +31,7 @@ RUN apt update \
         intl \
         opcache \
         pdo \
-        pdo_mysql \
+        pdo_pgsql \
         sockets \
         mbstring \
         exif \
