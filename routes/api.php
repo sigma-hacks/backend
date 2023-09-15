@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', [\App\Http\Controllers\TestingController::class, 'test'])->name('api.test');
+Route::get('test', [TestingController::class, 'test'])->name('api.test');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/**
+ * Auth routes
+ */
+Route::prefix('auth')->group(function() {
+
+    Route::post('login', [RegisterController::class, 'login'])->name('auth.login');
+    Route::post('register', [RegisterController::class, 'register'])->name('auth.register');
+
+    Route::middleware('auth:sanctum')->group(function() {
+        Route::post('tokens/create', [AuthorizationController::class, 'createPersonalToken'])->name('auth.token.create');
+    });
+
+
 });
+
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
