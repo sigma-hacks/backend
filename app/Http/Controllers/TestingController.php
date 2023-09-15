@@ -16,9 +16,16 @@ class TestingController extends Controller
      */
     public function test(Request $request): Response
     {
+        $headers = $request->header();
+        $data = $request->all();
+
         return response([
             'status' => true,
-            'server_date' => date('Y-m-d H:i:s')
+            'server_date' => date('Y-m-d H:i:s'),
+            'request' => [
+                'headers' => $headers,
+                'data' => $data
+            ]
         ]);
     }
 
