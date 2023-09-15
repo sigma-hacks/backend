@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Role extends Model
+class Company extends Model
 {
-
     use HasFactory;
 
     /**
@@ -16,7 +15,7 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'companies';
 
     /**
      * The primary key for the model.
@@ -52,7 +51,11 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'is_active',
+        'name',
+        'code',
+        'photo',
+        'description'
     ];
 
     /**
@@ -71,12 +74,11 @@ class Role extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'is_guest' => 'boolean',
-        'is_default' => 'boolean',
-        'is_admin' => 'boolean',
-        'is_employee' => 'boolean',
-        'is_partner' => 'boolean',
+        'is_active' => 'boolean',
         'name' => 'string',
+        'code' => 'string',
+        'photo' => 'string',
+        'description' => 'string',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
@@ -88,7 +90,6 @@ class Role extends Model
      */
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'role_id', 'id');
+        return $this->hasMany(User::class, 'company_id', 'id');
     }
-
 }
