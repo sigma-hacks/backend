@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement();
             $table->boolean('is_guest')->default(0);
+            $table->boolean('is_default')->default(0);
             $table->boolean('is_admin')->default(0);
             $table->boolean('is_employee')->default(0);
             $table->boolean('is_partner')->default(0);

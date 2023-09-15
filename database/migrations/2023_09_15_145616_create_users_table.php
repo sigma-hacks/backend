@@ -17,12 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable()->index();
             $table->string('name')->index();
             $table->string('code')->unique();
-            $table->unsignedBigInteger('phone')->index();
+            $table->unsignedBigInteger('phone')->default(null)->nullable()->index();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('remember_token', 100)->nullable();
-            $table->string('photo');
+            $table->string('photo')->default(null)->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
 
