@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\BusRouteStationController;
 use App\Http\Controllers\CardTariffController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\CompanyServicesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
@@ -66,4 +68,38 @@ Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function ()
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+/**
+ * Routes for companies
+ */
+Route::prefix('companies')->group(function () {
+
+    Route::get('', [CompaniesController::class, 'index'])->name('companies.list');
+    Route::get('{id}', [CompaniesController::class, 'single'])->name('companies.single');
+
+    Route::middleware(['auth:sanctum','roles:admin'])->group(function () {
+        Route::post('', [CompaniesController::class, 'store'])->name('companies.create');
+        Route::patch('{id}', [CompaniesController::class, 'update'])->name('companies.create');
+    });
+});
+
+/**
+ * Company routes
+ */
+Route::prefix('company')->group(function () {
+
+    /**
+     * Routes for company services
+     */
+    Route::prefix('services')->group(function () {
+        Route::get('', [CompanyServicesController::class, 'index'])->name('company.services.list');
+        Route::get('{id}', [CompanyServicesController::class, 'single'])->name('company.services.single');
+
+        Route::middleware(['auth:sanctum', 'roles:partner,admin'])->group(function () {
+            Route::post('', [CompanyServicesController::class, 'store'])->name('company.services.create');
+            Route::patch('{id}', [CompanyServicesController::class, 'update'])->name('company.services.update');
+            Route::delete('{id}', [CompanyServicesController::class, 'delete'])->name('company.services.delete');
+        });
+    });
 });
