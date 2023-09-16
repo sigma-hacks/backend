@@ -6,6 +6,7 @@ use App\Http\Controllers\CardTariffController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CompanyServicesController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ServiceDiscountController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -47,6 +48,7 @@ Route::prefix('card-tariff')->name('card_tariff')->group(function() {
         Route::delete('{id}', [CardTariffController::class, 'delete'])->name('delete');
     });
 });
+
 
 Route::prefix('bus')->group(function () {
     Route::prefix('route')->group(function () {
@@ -109,5 +111,16 @@ Route::prefix('company')->group(function () {
             Route::patch('{id}', [CompanyServicesController::class, 'update'])->name('company.services.update');
             Route::delete('{id}', [CompanyServicesController::class, 'delete'])->name('company.services.delete');
         });
+    });
+});
+
+Route::prefix('service_discount')->name('service_discount')->group(function() {
+    Route::get('', [ServiceDiscountController::class, 'index'])->name('all');
+    Route::get('{id}', [ServiceDiscountController::class, 'only'])->name('only');
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('', [ServiceDiscountController::class, 'store'])->name('create');
+        Route::patch('{id}', [ServiceDiscountController::class, 'update'])->name('update');
+        Route::delete('{id}', [ServiceDiscountController::class, 'delete'])->name('delete');
     });
 });

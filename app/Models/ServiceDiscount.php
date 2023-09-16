@@ -95,6 +95,29 @@ class ServiceDiscount extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    const CREATING_RULES = [
+        'company_id' => 'required|integer|exists:companies,id',
+        'tariff_id' => 'required|integer|exists:tariff_discounts,id',
+        'service_id' => 'required|integer|exists:company_services,id',
+        'is_active' => 'boolean',
+        'description' => 'string',
+        'name' => 'string',
+        'amount' => 'integer',
+        'discount_type' => 'string',
+        'started_at' => 'date_format:Y-m-d H:i:s',
+        'finished_at' => 'date_format:Y-m-d H:i:s'
+    ];
+
+    const UPDATING_RULES = [
+        'is_active' => 'boolean',
+        'description' => 'string',
+        'name' => 'string',
+        'amount' => 'integer',
+        'discount_type' => 'string',
+        'started_at' => 'date_format:Y-m-d H:i:s',
+        'finished_at' => 'date_format:Y-m-d H:i:s'
+    ];
+
     /**
      * Relationship for getting CreatedUser
      *
