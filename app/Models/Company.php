@@ -92,4 +92,16 @@ class Company extends Model
     {
         return $this->hasMany(User::class, 'company_id', 'id');
     }
+
+    public const CREATING_RULES = [
+        'name' => 'required|string',
+        'photo' => 'string',
+        'description' => 'string'
+    ];
+
+    public const UPDATING_RULES = [
+        'name' => 'string',
+        'photo' => 'string',
+        'description' => 'string'
+    ];
 }
