@@ -286,16 +286,31 @@ class MainHelper
 
     public static function isAdmin(): bool
     {
-        return auth()->user()->role_id == User::ROLE_ADMIN;
+        return auth()?->user()?->role_id == User::ROLE_ADMIN;
     }
 
-    public static function getUserId(): int
+    public static function isPartner(): bool
     {
-        return auth()->user()->id;
+        return auth()?->user()?->role_id == User::ROLE_ADMIN;
+    }
+
+    public static function isUser(): bool
+    {
+        return auth()?->user()?->role_id == User::ROLE_ADMIN;
+    }
+
+    public static function isEmployer(): bool
+    {
+        return auth()?->user()?->role_id == User::ROLE_ADMIN;
+    }
+
+    public static function getUserId(): int | null
+    {
+        return auth()?->user()?->id;
     }
 
     public static function getUser()
     {
-        return auth()->user();
+        return auth()?->user();
     }
 }

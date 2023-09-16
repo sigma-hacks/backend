@@ -24,23 +24,27 @@ class RegisterController extends BaseController
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'pin' => 'integer',
+            'identify' => 'integer',
+            'employee_card' => 'integer'
         ]);
 
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors()->toArray());
+        if($validator->fails()) {
+            return $this->sendError('Validation Error', $validator->errors()->toArray());
         }
 
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
+        $data = $request->all();
+        $data['password'] = bcrypt($data['password']);
+        $data['pin'] = bcrypt($data['pin']);
 
         // Set user role_id
-        $input['role_id'] = 1; // 1 - default role (user)
-        $input['company_id'] = null;
+        $data['role_id'] = 1; // 1 - default role (user)
+        $data['company_id'] = null;
 
-        $input['code'] = MainHelper::cyr2lat($input['name']);
+        $data['code'] = MainHelper::cyr2lat($data['name']);
 
-        $user = new User($input);
+        $user = new User($data);
 
         try {
             $user->save();
