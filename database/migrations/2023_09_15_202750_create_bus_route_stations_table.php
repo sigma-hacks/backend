@@ -25,7 +25,7 @@ return new class extends Migration
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('bus_routes')->references('id')->on('bus_route_id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('bus_route_id')->references('id')->on('bus_routes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
