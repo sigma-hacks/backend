@@ -42,7 +42,7 @@ Route::prefix('card-tariff')->name('card_tariff')->group(function() {
     Route::get('', [CardTariffController::class, 'index'])->name('all');
     Route::get('{id}', [CardTariffController::class, 'only'])->name('only');
 
-    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['auth:sanctum', 'roles:admin'])->group(function () {
         Route::post('', [CardTariffController::class, 'store'])->name('create');
         Route::patch('{id}', [CardTariffController::class, 'update'])->name('update');
         Route::delete('{id}', [CardTariffController::class, 'delete'])->name('delete');
@@ -118,7 +118,7 @@ Route::prefix('service_discount')->name('service_discount')->group(function() {
     Route::get('', [ServiceDiscountController::class, 'index'])->name('all');
     Route::get('{id}', [ServiceDiscountController::class, 'only'])->name('only');
 
-    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['auth:sanctum', 'roles:admin'])->group(function () {
         Route::post('', [ServiceDiscountController::class, 'store'])->name('create');
         Route::patch('{id}', [ServiceDiscountController::class, 'update'])->name('update');
         Route::delete('{id}', [ServiceDiscountController::class, 'delete'])->name('delete');

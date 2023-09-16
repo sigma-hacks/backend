@@ -19,7 +19,7 @@ class ApiIsRoleMiddleware extends AbstractMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-//        Route::middleware(['roles:admin,user, employer, guest, partner'])
+        // Route::middleware(['roles:admin,user, employer, guest, partner'])
         $roleId = auth()->user()->role_id;
         if ($roleId == User::ROLE_ADMIN) {
             return $next($request);
