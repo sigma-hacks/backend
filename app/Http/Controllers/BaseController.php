@@ -17,7 +17,7 @@ abstract class BaseController extends Controller
      * @param array $messages
      * @return JsonResponse
      */
-    public function sendResponse($result, int $code = 200, array $messages = []): JsonResponse
+    public function sendResponse($result, int $code = 200, array|string $messages = []): JsonResponse
     {
         $response = [
             'status' => true,
@@ -41,7 +41,7 @@ abstract class BaseController extends Controller
      * @param int $code
      * @return JsonResponse
      */
-    public function sendError(string $error, array $messages = [], int $code = 404): JsonResponse
+    public function sendError(string $error, array|string $messages = [], int $code = 404): JsonResponse
     {
         $response = [
             'status' => false,
@@ -57,7 +57,7 @@ abstract class BaseController extends Controller
         return response()->json($response, $code);
     }
 
-    public function sendServerError(string $error, array $messages = []): JsonResponse
+    public function sendServerError(string $error, array|string $messages = []): JsonResponse
     {
         return $this->sendError($error, $messages, 500);
     }
