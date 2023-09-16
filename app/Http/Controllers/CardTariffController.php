@@ -23,7 +23,9 @@ class CardTariffController extends BaseController
             return response()->json($validate->toArray(), 412);
         }
 
-        $card = new CardTariff($validate->getData());
+        $arField = $validate->getData();
+        $arField['created_user_id'] = MainHelper::getUserId();
+        $card = new CardTariff($arField);
 
         try {
             $card->save();
