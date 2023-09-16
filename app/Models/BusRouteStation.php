@@ -91,6 +91,28 @@ class BusRouteStation extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    const CREATING_RULES = [
+        'is_active' => 'boolean',
+        'company_id' => 'required|integer|exists:companies,id',
+        'bus_route_id' => 'required|integer|exists:bus_routes,id',
+        'name' => 'required|string',
+        'price' => 'required|integer',
+        'sort' => 'required|integer',
+        'distance' => 'required|integer',
+        'map_lat' => 'required|integer',
+        'map_lng' => 'required|integer',
+    ];
+
+    const UPDATING_RULES = [
+        'is_active' => 'boolean',
+        'name' => 'required|string',
+        'price' => 'required|integer',
+        'sort' => 'required|integer',
+        'distance' => 'required|integer',
+        'map_lat' => 'required|integer',
+        'map_lng' => 'required|integer',
+    ];
+
     /**
      * Relationship for getting Company
      *

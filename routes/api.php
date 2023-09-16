@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\BusRouteStationController;
 use App\Http\Controllers\CardTariffController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\RegisterController;
@@ -45,8 +46,22 @@ Route::prefix('card-tariff')->name('card_tariff')->group(function() {
     });
 });
 
-Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function () {
+Route::prefix('bus')->group(function () {
+    Route::prefix('route')->group(function () {
+        Route::prefix('stations')->group(function () {
+            Route::get('', [BusRouteStationController::class, 'index']);
+            Route::get('{id}', [BusRouteStationController::class, 'only']);
 
+            Route::middleware(['auth:sanctum','roles:admin'])->group(function () {
+                Route::post('', [BusRouteStationController::class, 'store']);
+                Route::patch('{id}', [BusRouteStationController::class, 'update']);
+                Route::delete('{id}', [BusRouteStationController::class, 'delete']);
+            });
+        });
+    });
+});
+
+Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function () {
     return 1;
 });
 
