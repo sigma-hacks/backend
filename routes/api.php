@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\CardTariffController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
@@ -30,7 +31,17 @@ Route::prefix('auth')->group(function() {
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('tokens/create', [AuthorizationController::class, 'createPersonalToken'])->name('auth.token.create');
     });
+});
 
+Route::prefix('card-tariff')->name('card_tariff')->group(function() {
+    Route::get('', [CardTariffController::class, 'index'])->name('all');
+    Route::get('{id}', [CardTariffController::class, 'only'])->name('only');
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('', [CardTariffController::class, 'store'])->name('create');
+        Route::patch('{id}', [CardTariffController::class, 'update'])->name('update');
+        Route::delete('{id}', [CardTariffController::class, 'delete'])->name('delete');
+    });
 });
 
 Route::middleware(['roles:admin,user'])->get('/test', function () {

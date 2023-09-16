@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property integer $created_user_id
+ * @property integer $company_id
+ * @property integer $name
+ * @property integer $amount
+ */
 class CardTariff extends Model
 {
     use HasFactory;
@@ -100,4 +107,16 @@ class CardTariff extends Model
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
+
+    const CREATING_RULES = [
+        'company_id' => 'integer',
+        'name' => 'required|string',
+        'amount' => 'required|integer',
+    ];
+
+    const UPDATING_RULES = [
+        'company_id' => 'integer',
+        'name' => 'string',
+        'amount' => 'integer',
+    ];
 }

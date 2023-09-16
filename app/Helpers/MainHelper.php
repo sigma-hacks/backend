@@ -284,9 +284,18 @@ class MainHelper
         };
     }
 
-    public function isAdmin(): bool
+    public static function isAdmin(): bool
     {
         return auth()->user()->role_id == User::ROLE_ADMIN;
     }
 
+    public static function getUserId(): int
+    {
+        return auth()->user()->id;
+    }
+
+    public static function getUser()
+    {
+        return auth()->user();
+    }
 }
