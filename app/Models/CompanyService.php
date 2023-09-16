@@ -93,4 +93,17 @@ class CompanyService extends Model
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
+    public const CREATING_RULES = [
+        'company_id' => 'integer',
+        'name' => 'required|string',
+        'price' => 'integer',
+        'photo' => 'string'
+    ];
+
+    public const UPDATING_RULES = [
+        'name' => 'string',
+        'price' => 'integer',
+        'photo' => 'string'
+    ];
+
 }
