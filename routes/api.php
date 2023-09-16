@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\CardTariffController;
+use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
@@ -51,4 +52,18 @@ Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function ()
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+/**
+ * Routes for companies
+ */
+Route::prefix('companies')->group(function () {
+
+    Route::get('', [CompaniesController::class, 'index'])->name('companies.list');
+    Route::get('{id}', [CompaniesController::class, 'single'])->name('companies.single');
+
+    Route::middleware(['auth:sanctum','roles:admin'])->group(function () {
+        Route::post('', [CompaniesController::class, 'store'])->name('companies.create');
+        Route::patch('{id}', [CompaniesController::class, 'update'])->name('companies.create');
+    });
 });
