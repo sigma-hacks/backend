@@ -7,6 +7,7 @@ use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CompanyServicesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,8 +67,15 @@ Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function ()
     return 1;
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/**
+ * User routes
+ */
+Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+    Route::get('', [UsersController::class, 'me'])->name('users.me');
+
+    Route::middleware('roles:admin,partner,user,employee')->group(function () {
+        Route::patch('{id}', [UsersController::class, 'update'])->name('users.update');
+    });
 });
 
 /**

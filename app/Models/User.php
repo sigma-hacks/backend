@@ -27,6 +27,9 @@ class User extends Authenticatable
     protected $fillable = [
         'role_id',
         'company_id',
+        'identify',
+        'pin',
+        'employee_card',
         'name',
         'code',
         'email',
@@ -42,6 +45,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'pin',
         'remember_token',
     ];
 
@@ -53,6 +57,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'pin' => 'hashed'
     ];
 
     /**
