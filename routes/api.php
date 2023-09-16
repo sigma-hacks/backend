@@ -44,7 +44,7 @@ Route::prefix('card-tariff')->name('card_tariff')->group(function() {
     });
 });
 
-Route::middleware(['roles:admin,user'])->get('/test', function () {
+Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function () {
 
     return 1;
 });

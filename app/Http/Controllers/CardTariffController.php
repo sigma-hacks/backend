@@ -61,7 +61,7 @@ class CardTariffController extends BaseController
     {
         $card = CardTariff::find($id);
 
-        return $card ? $this->sendError("ID {$id} not found") : $this->sendResponse($card);
+        return $card ? $this->sendResponse($card) : $this->sendError("ID {$id} not found");
     }
 
     /**
@@ -79,7 +79,7 @@ class CardTariffController extends BaseController
             return $this->sendError("ID {$id} not found");
         }
 
-        if (!MainHelper::isAdmin() || $card->created_user_id != MainHelper::getUserId()) {
+        if (!MainHelper::isAdmin() && $card->created_user_id != MainHelper::getUserId()) {
             return $this->sendError("Not have permission", code: 403);
         }
 
@@ -117,7 +117,7 @@ class CardTariffController extends BaseController
             return $this->sendError("ID {$id} not found");
         }
 
-        if (!MainHelper::isAdmin() || $card->created_user_id != MainHelper::getUserId()) {
+        if (!MainHelper::isAdmin() && $card->created_user_id != MainHelper::getUserId()) {
             return $this->sendError("Not have permission", code: 403);
         }
 
