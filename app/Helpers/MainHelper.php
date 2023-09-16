@@ -284,26 +284,9 @@ class MainHelper
         };
     }
 
-
-    /**
-     * Get all Admin
-     *
-     * @return Collection
-     */
-    public static function getAdmins(): Collection
+    public function isAdmin(): bool
     {
-        return User::where('role_id', '=', 40)
-            ->get();
+        return auth()->user()->role_id == User::ROLE_ADMIN;
     }
 
-    /**
-     * Get all Moder
-     *
-     * @return Collection
-     */
-    public static function getModers(): Collection
-    {
-        return User::where('role_id', '=', 30)
-            ->get();
-    }
 }

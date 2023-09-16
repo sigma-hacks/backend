@@ -31,7 +31,11 @@ Route::prefix('auth')->group(function() {
         Route::post('tokens/create', [AuthorizationController::class, 'createPersonalToken'])->name('auth.token.create');
     });
 
+});
 
+Route::middleware(['roles:admin,user'])->get('/test', function () {
+
+    return 1;
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

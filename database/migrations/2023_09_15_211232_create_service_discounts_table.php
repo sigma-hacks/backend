@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -26,6 +25,18 @@ return new class extends Migration
             $table->dateTime('finished_at')->nullable()->default(null)->index();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
+
+            $table->foreign('created_user_id')->on('users')->references('id')
+                ->cascadeOnUpdate();
+
+            $table->foreign('company_id')->on('companies')->references('id')
+                ->cascadeOnUpdate();
+
+            $table->foreign('tariff_id')->on('tariff_discounts')->references('id')
+                ->cascadeOnUpdate();
+
+            $table->foreign('service_id')->on('company_services')->references('id')
+                ->cascadeOnUpdate();
         });
     }
 
