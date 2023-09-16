@@ -15,12 +15,12 @@ class ApiIsRoleMiddleware extends AbstractMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
 //        Route::middleware(['roles:admin,user, employer, guest, partner'])
-            $roleId = auth()->user()->role_id;
+        $roleId = auth()->user()->role_id;
         if ($roleId == User::ROLE_ADMIN) {
             return $next($request);
         }
@@ -35,7 +35,7 @@ class ApiIsRoleMiddleware extends AbstractMiddleware
 
         $validateRoles = [];
 
-        foreach ($roles as $key=>$value) {
+        foreach ($roles as $key => $value) {
             if (isset($bookRoles[$value])) {
                 $validateRoles[$bookRoles[$value]] = true;
             }
