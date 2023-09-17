@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Helpers\MainHelper;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,7 +25,7 @@ class UserFactory extends Factory
         $birth_date = fake()->date('Y-m-d');
 
         return [
-            'role_id' => 0,
+            'role_id' => User::ROLE_GUEST,
             'name' => $name,
             'code' => fake()->numerify(Str::slug($name).'-######'),
             'phone' => '79'.fake()->unique()->numberBetween(000000001, 999099090),

@@ -19,15 +19,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    const ROLE_GUEST = 0;
+    const ROLE_GUEST = 1;
 
-    const ROLE_USER = 1;
+    const ROLE_USER = 2;
 
-    const ROLE_ADMIN = 2;
+    const ROLE_ADMIN = 3;
 
-    const ROLE_PARTNER = 3;
+    const ROLE_PARTNER = 4;
 
-    const ROLE_EMPLOYEE = 4;
+    const ROLE_EMPLOYEE = 5;
 
     protected $fillable = [
         'role_id',

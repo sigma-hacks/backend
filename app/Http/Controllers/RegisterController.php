@@ -35,7 +35,7 @@ class RegisterController extends BaseController
         $data['pin'] = bcrypt($data['pin']);
 
         // Set user role_id
-        $data['role_id'] = 1; // 1 - default role (user)
+        $data['role_id'] = User::ROLE_USER; // 1 - default role (user)
         $data['company_id'] = null;
 
         $data['code'] = MainHelper::cyr2lat($data['name']);
