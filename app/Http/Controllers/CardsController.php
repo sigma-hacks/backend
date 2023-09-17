@@ -43,7 +43,7 @@ class CardsController extends BaseController
             $name = join(' ', $exName);
 
             $nameHash = intval(hash('crc32b', $name), 16);
-            $names[$name] = $nameHash;
+            $names[$nameHash] = $name;
 
             return [
                 $nameHash,
