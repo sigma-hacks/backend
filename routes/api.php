@@ -131,8 +131,16 @@ Route::prefix('shift')->middleware(['auth:sanctum'])->group(function () {
     Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
 
     Route::prefix('route')->group(function () {
-        Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
-        Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
+        Route::post('start', [ShiftRoutesController::class, 'start'])->name('shift.start');
+        Route::post('stop', [ShiftRoutesController::class, 'stop'])->name('shift.stop');
+    });
+});
+
+Route::prefix('card')->group(function() {
+
+
+    Route::middleware(['auth:sanctum'])->group(function() {
+        Route::post('check', [ShiftRoutesController::class, 'check'])->name('card.check');
     });
 });
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MainHelper;
+use App\Models\Card;
+use App\Models\CardCheck;
 use App\Models\ShiftRoute;
 use App\Models\User;
 use Exception;
@@ -64,17 +67,17 @@ class ShiftRoutesController extends CRUDBaseController
         $user = $request->user();
         $shift = ShiftController::getShift($request);
 
-        $finishedAt = date('Y-m-d H:i:s');
+        $startedAt = date('Y-m-d H:i:s');
 
         if ($request->has('request_at')) {
-            $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+            $startedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
         if (! $shift?->id) {
             return $this->sendError('Not found started shifts');
         }
 
-        $data = self::stopShiftRoutes($shift->id, $finishedAt);
+        $data = self::stopShiftRoutes($shift->id, $startedAt);
 
         $shiftRoute = new ShiftRoute([
             'is_active' => true,
@@ -83,7 +86,7 @@ class ShiftRoutesController extends CRUDBaseController
             'vehicle_number' => $request->input('vehicle_number'),
             'pos_lat' => $request->input('pos_lat'),
             'pos_lng' => $request->input('pos_lng'),
-            'started_at' => $request->has('request_at') ? date('Y-m-d H:i:s', strtotime($request->input('request_at'))) : date('Y-m-d H:i:s'),
+            'started_at' => date('Y-m-d H:i:s', strtotime($startedAt)),
             'finished_at' => null,
             'bus_router_id' => (int) $request->input('bus_router_id') ?? 0,
         ]);
@@ -120,10 +123,25 @@ class ShiftRoutesController extends CRUDBaseController
     }
 
     /**
-     * Checking user card
+     * Save card checking
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
     public function check(Request $request): JsonResponse
     {
+
+        $identify = (int) $request->input('card_number');
+
+        if($identify <= 2000000000000000) {
+            return $this->sendError('Field "card_number" is not valid! Ex.: 2202000000000001 (min value)', '', 412);
+        }
+
+        $card = Card::where('identifier', $identify)->with('tariff')->first();
+
+        if(! $card?->id) {
+            return $this->sendError("Card with number: '{$identify}' not found in database!");
+        }
 
         $shift = ShiftController::getShift($request);
 
@@ -139,8 +157,49 @@ class ShiftRoutesController extends CRUDBaseController
 
         $shiftRoute = $shiftRoutes->first();
 
-        
+        $startedAt = date('Y-m-d H:i:s');
 
-        return $this->sendResponse([]);
+        if ($request->has('request_at')) {
+            $startedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+        }
+
+        $check = new CardCheck([
+            'employer_id' => MainHelper::getUserId(),
+            'card_id' => $card->id,
+            'company_id' => $shift->company_id,
+            'shift_id' => $shift->id,
+            'shift_route_id' => $shiftRoute->id,
+            'bus_route_id' => $shiftRoute->bus_router_id,
+            'pos_lat' => (double) $request->input('pos_lat'),
+            'pos_lng' => (double) $request->input('pos_lat'),
+            'checked_at' => $startedAt
+        ]);
+
+        try {
+            $check->save();
+        } catch (Exception $e) {
+            return $this->sendServerError('Database error', $e->getMessage());
+        }
+
+        return $this->sendResponse([
+            'card' => $card,
+            'check' => $check
+        ]);
+    }
+
+    /**
+     * Getting data with last card checks
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function lastChecks(Request $request): JsonResponse
+    {
+
+        $limit = (int) $request->input('limit') ?? 15;
+        $user = $request->user();
+        $checks = CardCheck::where('employer_id', $user->id)->limit($limit)->orderByDesc('created_at')->get();
+
+        return $this->sendResponse($checks);
     }
 }
