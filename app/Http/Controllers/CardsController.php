@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\CardTariff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class CardsController extends BaseController
         })->all();
 
         return $this->sendResponse([
+            'tariffs' => CardTariff::select('name','amount','is_active')->where('company_id', 0)->get(),
             'names' => $names,
             'cards' => $transformedCards,
         ]);
