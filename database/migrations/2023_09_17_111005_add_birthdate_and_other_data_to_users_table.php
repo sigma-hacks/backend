@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('card_tariffs', function (Blueprint $table) {
-            $table->jsonb('conditions')->after('amount');
-            $table->boolean('is_active')->after('amount');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dateTime('birth_date')->default(null)->nullable()->index();
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('card_tariffs', function (Blueprint $table) {
-            $table->dropColumn('conditions');
-            $table->dropColumn('is_active');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('birth_date');
         });
     }
 };

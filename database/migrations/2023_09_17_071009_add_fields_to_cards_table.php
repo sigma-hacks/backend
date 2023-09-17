@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cards', function (Blueprint $table) {
-            $table->unsignedBigInteger('expired_at')->after('id')->index();
+            $table->dateTime('expired_at')->nullable()->default(null)->after('id')->index();
             $table->unsignedBigInteger('identifier')->after('id')->index();
-            $table->unsignedBigInteger('tariff_expired_at')->after('id')->index();
-            $table->unsignedBigInteger('tariff_id')->after('id')->index();
-            $table->unsignedBigInteger('user_id')->after('id')->index();
-            $table->boolean('is_active')->after('id')->index();
+            $table->dateTime('tariff_expired_at')->nullable()->default(null)->after('id')->index();
+            $table->unsignedBigInteger('tariff_id')->nullable()->default(null)->after('id')->index();
+            $table->unsignedBigInteger('user_id')->nullable()->default(null)->after('id')->index();
+            $table->boolean('is_active')->default(false)->after('id')->index();
 
             $table->index(['created_at','updated_at']);
         });
