@@ -138,9 +138,6 @@ Route::prefix('shift_route')->name('shift_route')->group(function() {
     Route::get('{id}', [ShiftRoutesController::class, 'only'])->name('only');
 
     Route::middleware(['auth:sanctum'])->group(function () {
-
-
-
         Route::post('', [ShiftRoutesController::class, 'store'])->name('create');
         Route::patch('{id}', [ShiftRoutesController::class, 'update'])->name('update');
         Route::delete('{id}', [ShiftRoutesController::class, 'delete'])->name('delete');

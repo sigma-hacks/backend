@@ -10,6 +10,8 @@ class ShiftRoutesController extends CRUDBaseController
 {
     public $model = ShiftRoute::class;
 
+    public static function getShiftRoute(int $shiftId, Request $request)
+
     /**
      * Start shift route
      *
@@ -20,7 +22,19 @@ class ShiftRoutesController extends CRUDBaseController
     {
 
         $user = $request->user();
-        ShiftController::getShift($request);
+        $shift = ShiftController::getShift($request);
+
+        $createdAt = date('Y-m-d H:i:s');
+
+        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+            $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+        }
+
+        if( !$shift?->id ) {
+            return $this->sendError('Not found started shifts');
+        }
+
+
 
         return $this->sendResponse([]);
     }
