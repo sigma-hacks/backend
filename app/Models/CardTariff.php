@@ -61,7 +61,8 @@ class CardTariff extends Model
         'created_user_id',
         'company_id',
         'name',
-        'amount'
+        'amount',
+        'conditions'
     ];
 
     /**
@@ -84,6 +85,7 @@ class CardTariff extends Model
         'company_id' => 'integer',
         'name' => 'string',
         'amount' => 'integer',
+        'conditions' => 'array',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
