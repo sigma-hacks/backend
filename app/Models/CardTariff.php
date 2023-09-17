@@ -111,9 +111,9 @@ class CardTariff extends Model
     }
 
     const CREATING_RULES = [
-        'company_id' => 'integer|exists:companies,id',
+        'company_id' => 'required|integer|exists:companies,id',
         'name' => 'required|string',
-        'amount' => 'required|integer',
+        'amount' => 'integer',
     ];
 
     const UPDATING_RULES = [
