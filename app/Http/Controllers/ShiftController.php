@@ -72,10 +72,6 @@ class ShiftController extends BaseController
     public function stop(Request $request, int $shiftId): JsonResponse
     {
 
-
-
-
-
         $shift->finished_at = $createdAt;
 
         try {
