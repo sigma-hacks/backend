@@ -12,12 +12,12 @@ class CardSeeder extends Seeder
      */
     public function run(): void
     {
-        $cards = Card::factory(10000)->make();
-
-        $chunks = $cards->chunk(2000);
-
-        $chunks->each(function ($chunk) {
-            Card::insert($chunk->toArray());
-        });
+        for( $i = 1; $i <= 3000; $i++ ) {
+            $cards = Card::factory(100)->make();
+            $chunks = $cards->chunk(50);
+            $chunks->each(function ($chunk) {
+                Card::insert($chunk->toArray());
+            });
+        }
     }
 }
