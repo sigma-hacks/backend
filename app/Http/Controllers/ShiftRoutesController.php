@@ -129,4 +129,6 @@ class ShiftRoutesController extends CRUDBaseController
 
         return $this->sendResponse($data['shiftRoutes'], 200, $data['errors']);
     }
+
+    public function
 }

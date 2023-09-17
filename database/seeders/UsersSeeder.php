@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Card;
 use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
@@ -13,9 +13,10 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        for( $i = 0; $i <= 400; $i++ ) {
-            echo "Work with index: {$i}\n\r";
-            User::factory()->count(10)->create();
+        for($i = 0; $i <= 30000; $i++) {
+            $itemsCreated = $i * 10;
+            echo "Created {$itemsCreated}\n\r";
+            Card::factory()->count(10)->create();
         }
     }
 }
