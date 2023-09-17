@@ -56,9 +56,12 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime:Y-m-d H:i:s',
         'password' => 'hashed',
-        'pin' => 'hashed'
+        'pin' => 'hashed',
+        'birth_date' => 'datetime:Y-m-d H:i:s',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     /**
