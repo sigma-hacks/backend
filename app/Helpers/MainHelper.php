@@ -284,6 +284,16 @@ class MainHelper
         };
     }
 
+    /**
+     * Return random item from array
+     *
+     * @param $array
+     * @return mixed
+     */
+    public static function getRandomValue(array $array): mixed {
+        return $array[rand(0, count($array) - 1)];
+    }
+
     public static function isAdmin(): bool
     {
         return auth()?->user()?->role_id == User::ROLE_ADMIN;
