@@ -10,7 +10,10 @@ class ShiftRoutesController extends CRUDBaseController
 {
     public $model = ShiftRoute::class;
 
-    public static function getShiftRoute(int $shiftId, Request $request)
+    public static function getShiftRoute(int $shiftId, Request $request): JsonResponse
+    {
+
+    }
 
     /**
      * Start shift route
