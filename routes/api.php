@@ -7,6 +7,7 @@ use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CompanyServicesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ServiceDiscountController;
+use App\Http\Controllers\ShiftRoutesController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -122,5 +123,16 @@ Route::prefix('service_discount')->name('service_discount')->group(function() {
         Route::post('', [ServiceDiscountController::class, 'store'])->name('create');
         Route::patch('{id}', [ServiceDiscountController::class, 'update'])->name('update');
         Route::delete('{id}', [ServiceDiscountController::class, 'delete'])->name('delete');
+    });
+});
+
+Route::prefix('shift_route')->name('shift_route')->group(function() {
+    Route::get('', [ShiftRoutesController::class, 'index'])->name('all');
+    Route::get('{id}', [ShiftRoutesController::class, 'only'])->name('only');
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('', [ShiftRoutesController::class, 'store'])->name('create');
+        Route::patch('{id}', [ShiftRoutesController::class, 'update'])->name('update');
+        Route::delete('{id}', [ShiftRoutesController::class, 'delete'])->name('delete');
     });
 });
