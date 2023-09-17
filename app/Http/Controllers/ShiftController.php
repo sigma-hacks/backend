@@ -40,7 +40,9 @@ class ShiftController extends BaseController
 
         $oldShift = self::getShift($request);
         if( $oldShift?->id >= 1 ) {
-            return $this->sendError('Shift was started');
+            return $this->sendError('Please finishing shift for started new shift!', [
+                "Shift ID:{$oldShift->id} now is not finished"
+            ], 409);
         }
 
         $shift = new Shift([
@@ -71,8 +73,20 @@ class ShiftController extends BaseController
      */
     public function stop(Request $request, int $shiftId): JsonResponse
     {
+        $createdAt = date('Y-m-d H:i:s');
+
+        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+            $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+        }
+
+        $user = $request->user();
+        $shift = self::getShift($request);
+        if( !$shift?->id ) {
+            return $this->sendError('Shift not found');
+        }
 
         $shift->finished_at = $createdAt;
+        $shift->is_active = false;
 
         try {
             $shift->save();
