@@ -58,7 +58,7 @@ class ShiftController extends BaseController
         try {
             $shift->save();
         } catch (Exception $e) {
-            return $this->sendError('Database error', $e->getMessage(), 500);
+            return $this->sendServerError('Database error', $e->getMessage());
         }
 
         return $this->sendResponse($shift);
@@ -91,7 +91,7 @@ class ShiftController extends BaseController
         try {
             $shift->save();
         } catch (Exception $e) {
-            return $this->sendError('Database error', $e->getMessage(), 500);
+            return $this->sendServerError('Database error', $e->getMessage());
         }
 
         return $this->sendResponse($shift);

@@ -52,6 +52,8 @@ class ShiftRoute extends Model
      * @var array
      */
     protected $fillable = [
+        'is_active',
+        'bus_router_id',
         'shift_id',
         'employer_id',
         'vehicle_number',
@@ -77,6 +79,8 @@ class ShiftRoute extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'is_active' => 'boolean',
+        'bus_router_id' => 'integer',
         'shift_id' => 'integer',
         'employer_id' => 'integer',
         'vehicle_number' => 'string',

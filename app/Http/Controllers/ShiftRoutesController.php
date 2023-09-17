@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MainHelper;
 use App\Models\ShiftRoute;
 use App\Models\User;
 use Exception;
@@ -33,6 +34,33 @@ class ShiftRoutesController extends CRUDBaseController
     }
 
     /**
+     * Stoping shift routes
+     *
+     * @param int $shiftId
+     * @return array
+     */
+    public static function stopShiftRoutes(int $shiftId, string $finishedAt): array
+    {
+        $shiftRoutes = self::getShiftRoute($shiftId, true);
+
+        $errorMessages = [];
+        foreach ($shiftRoutes as $shiftRoute) {
+            $shiftRoute->finished_at = date('Y-m-d H:i:s', strtotime($finishedAt));
+            $shiftRoute->is_active = false;
+            try {
+                $shiftRoute->save();
+            } catch (Exception $e) {
+                $errorMessages[] = $e->getMessage();
+            }
+        }
+
+        return [
+            'shiftRoutes' => $shiftRoutes,
+            'errors' => $errorMessages
+        ];
+    }
+
+    /**
      * Start shift route
      *
      * @param Request $request
@@ -44,34 +72,61 @@ class ShiftRoutesController extends CRUDBaseController
         $user = $request->user();
         $shift = ShiftController::getShift($request);
 
-        $createdAt = date('Y-m-d H:i:s');
+        $finishedAt = date('Y-m-d H:i:s');
 
         if( $request->has('request_at') && $request->has('is_deferred_request') ) {
-            $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+            $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
         if( !$shift?->id ) {
             return $this->sendError('Not found started shifts');
         }
 
-        $oldShiftRoutes = self::getShiftRoute($shift->id, true);
-
-        $errorMessages = [];
-        foreach ($oldShiftRoutes as $oldShiftRoute) {
-            $oldShiftRoute->finished_at = date('Y-m-d H:i:s');
-            $oldShiftRoute->is_active = false;
-            try {
-                $oldShiftRoute->save();
-            } catch (Exception $e) {
-                $errorMessages[] = $e->getMessage();
-            }
-        }
+        $data = self::stopShiftRoutes($shift->id, $finishedAt);
 
         $shiftRoute = new ShiftRoute([
             'is_active' => true,
-            'created_user_id'
+            'shift_id' => $shift->id,
+            'employer_id' => $user->id,
+            'vehicle_number' => $request->input('vehicle_number'),
+            'pos_lat' => $request->input('pos_lat'),
+            'pos_lng' => $request->input('pos_lng'),
+            'started_at' => $request->has('request_at') ? date('Y-m-d H:i:s', strtotime($request->input('request_at'))) : date('Y-m-d H:i:s'),
+            'finished_at' => null,
+            'bus_router_id' => (int) $request->input('bus_router_id') ?? 0
         ]);
 
-        return $this->sendResponse([]);
+        try {
+            $shiftRoute->save();
+        } catch (Exception $e) {
+            return $this->sendServerError('Database error', $e->getMessage());
+        }
+
+        return $this->sendResponse($shiftRoute, 200, $data['errors']);
+    }
+
+    /**
+     * Stop shift routes
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function stop(Request $request): JsonResponse
+    {
+
+        $finishedAt = date('Y-m-d H:i:s');
+        $shift = ShiftController::getShift($request);
+
+        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+            $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+        }
+
+        if( !$shift?->id ) {
+            return $this->sendError('Not found started shifts');
+        }
+
+        $data = self::stopShiftRoutes($shift->id, $finishedAt);
+
+        return $this->sendResponse($data['shiftRoutes'], 200, $data['errors']);
     }
 }

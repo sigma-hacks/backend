@@ -131,6 +131,11 @@ Route::prefix('service_discount')->name('service_discount')->group(function() {
 Route::prefix('shift')->middleware(['auth:sanctum'])->group(function() {
     Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
     Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
+
+    Route::prefix('route')->group(function() {
+        Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
+        Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
+    });
 });
 
 Route::prefix('shift_route')->name('shift_route')->group(function() {
