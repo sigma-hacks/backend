@@ -139,3 +139,4 @@ Route::prefix('shift_route')->name('shift_route')->group(function() {
 });
 
 Route::get('cards', [CardsController::class, 'getCardsData'])->name('cards.all');
+Route::get('cards/count', [CardsController::class, 'getUpdates'])->name('cards.count');
