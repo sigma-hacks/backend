@@ -8,6 +8,7 @@ use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CompanyServicesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ServiceDiscountController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ShiftRoutesController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\UsersController;
@@ -125,6 +126,11 @@ Route::prefix('service_discount')->name('service_discount')->group(function() {
         Route::patch('{id}', [ServiceDiscountController::class, 'update'])->name('update');
         Route::delete('{id}', [ServiceDiscountController::class, 'delete'])->name('delete');
     });
+});
+
+Route::prefix('shift')->middleware(['auth:sanctum'])->group(function() {
+    Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
+    Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
 });
 
 Route::prefix('shift_route')->name('shift_route')->group(function() {

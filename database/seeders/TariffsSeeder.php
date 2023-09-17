@@ -14,11 +14,11 @@ class TariffsSeeder extends Seeder
         [
             'created_user_id' => 1,
             'company_id' => 0,
-            'name' => 'Школьный тариф',
+            'name' => 'Обучающийся',
             'amount' => 15,
             'is_active' => true,
             'conditions' => [
-                'age' => ['from' => 6, 'to' => 19]
+                'age' => ['from' => 6, 'to' => 23]
             ]
         ],
         [
