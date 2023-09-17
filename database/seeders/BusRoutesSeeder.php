@@ -17,7 +17,7 @@ class BusRoutesSeeder extends Seeder
     {
 
         try {
-            for ($i = 0; $i <= 100; $i++) {
+            for ($i = 1; $i <= 100; $i++) {
                 DB::table('bus_routes')->insert([
                     'id' => $i,
                     'is_active' => true,
