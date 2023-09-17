@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MainHelper;
-use App\Models\CardTariff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,8 +11,6 @@ abstract class CRUDBaseController extends BaseController
     /**
      * Creating Model
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -30,7 +27,7 @@ abstract class CRUDBaseController extends BaseController
         try {
             $card->save();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse($card);
@@ -38,9 +35,6 @@ abstract class CRUDBaseController extends BaseController
 
     /**
      * Getting all Model
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -52,10 +46,6 @@ abstract class CRUDBaseController extends BaseController
 
     /**
      * Getting only Model
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      */
     public function only(Request $request, int $id): JsonResponse
     {
@@ -67,15 +57,12 @@ abstract class CRUDBaseController extends BaseController
     /**
      * Update Model
      *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $card = app($this->model)->find($id);
-        if (!$card || $card?->id != $id) {
+        if (! $card || $card?->id != $id) {
             return $this->sendError("ID {$id} not found");
         }
 
@@ -85,14 +72,14 @@ abstract class CRUDBaseController extends BaseController
         }
 
         $arFields = $validate->getData();
-        foreach ($arFields as $key=>$value) {
+        foreach ($arFields as $key => $value) {
             $card->$key = $value;
         }
 
         try {
             $card->save();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse($card);
@@ -100,23 +87,19 @@ abstract class CRUDBaseController extends BaseController
 
     /**
      * Delete Model
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      */
     public function delete(Request $request, int $id): JsonResponse
     {
         $card = app($this->model)->find($id);
 
-        if (!$card || $card?->id != $id) {
+        if (! $card || $card?->id != $id) {
             return $this->sendError("ID {$id} not found");
         }
 
         try {
             $card->delete();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse(true);

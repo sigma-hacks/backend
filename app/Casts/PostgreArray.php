@@ -32,14 +32,14 @@ class PostgreArray implements CastsAttributes
 
     /**
      * Remove named keys from arrays
-     * @param array $array
-     * @return array
      */
     private function removeKeys(array $array): array
     {
         $array = array_values($array);
         foreach ($array as &$value) {
-            if (is_array($value)) $value = static::removeKeys($value);
+            if (is_array($value)) {
+                $value = static::removeKeys($value);
+            }
         }
 
         return $array;
@@ -47,7 +47,9 @@ class PostgreArray implements CastsAttributes
 
     private function pgArrayParse($s, $start = 0, &$end = null): ?array
     {
-        if (empty($s) || $s[0] != '{') return null;
+        if (empty($s) || $s[0] != '{') {
+            return null;
+        }
         $return = [];
         $string = false;
         $quote = '';
@@ -56,40 +58,39 @@ class PostgreArray implements CastsAttributes
         for ($i = $start + 1; $i < $len; $i++) {
             $ch = $s[$i];
 
-            if (!$string && $ch == '}') {
-                if ($v !== '' || !empty($return)) {
+            if (! $string && $ch == '}') {
+                if ($v !== '' || ! empty($return)) {
                     $return[] = $v;
                 }
                 $end = $i;
                 break;
-            } else
-                if (!$string && $ch == '{') {
-                    $v = $this->pgArrayParse($s, $i, $i);
-                } else
-                    if (!$string && $ch == ',') {
-                        $return[] = $v;
-                        $v = '';
-                    } else
-                        if (!$string && ($ch == '"' || $ch == "'")) {
-                            $string = true;
-                            $quote = $ch;
-                        } else
-                            if ($string && $ch == $quote && $s[$i - 1] == "\\") {
-                                $v = substr($v, 0, -1) . $ch;
-                            } else
-                                if ($string && $ch == $quote && $s[$i - 1] != "\\") {
-                                    $string = false;
-                                } else {
-                                    $v .= $ch;
-                                }
+            } elseif (! $string && $ch == '{') {
+                $v = $this->pgArrayParse($s, $i, $i);
+            } elseif (! $string && $ch == ',') {
+                $return[] = $v;
+                $v = '';
+            } elseif (! $string && ($ch == '"' || $ch == "'")) {
+                $string = true;
+                $quote = $ch;
+            } elseif ($string && $ch == $quote && $s[$i - 1] == '\\') {
+                $v = substr($v, 0, -1).$ch;
+            } elseif ($string && $ch == $quote && $s[$i - 1] != '\\') {
+                $string = false;
+            } else {
+                $v .= $ch;
+            }
         }
 
         foreach ($return as &$r) {
             if (is_numeric($r)) {
-                if (ctype_digit($r)) $r = (int)$r;
-                else $r = (float)$r;
+                if (ctype_digit($r)) {
+                    $r = (int) $r;
+                } else {
+                    $r = (float) $r;
+                }
             }
         }
+
         return $return;
     }
 }

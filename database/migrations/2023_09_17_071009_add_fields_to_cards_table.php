@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable()->default(null)->after('id')->index();
             $table->boolean('is_active')->default(false)->after('id')->index();
 
-            $table->index(['created_at','updated_at']);
+            $table->index(['created_at', 'updated_at']);
         });
     }
 

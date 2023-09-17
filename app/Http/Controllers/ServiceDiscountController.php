@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MainHelper;
-use App\Models\CardTariff;
 use App\Models\ServiceDiscount;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,8 +12,6 @@ class ServiceDiscountController extends BaseController
     /**
      * Creating ServiceDiscount
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): JsonResponse
@@ -31,7 +28,7 @@ class ServiceDiscountController extends BaseController
         try {
             $service->save();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse($service);
@@ -39,9 +36,6 @@ class ServiceDiscountController extends BaseController
 
     /**
      * Getting all ServiceDiscount
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -53,10 +47,6 @@ class ServiceDiscountController extends BaseController
 
     /**
      * Getting only ServiceDiscount
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      */
     public function only(Request $request, int $id): JsonResponse
     {
@@ -68,20 +58,17 @@ class ServiceDiscountController extends BaseController
     /**
      * Update ServiceDiscount
      *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id): JsonResponse
     {
         $service = ServiceDiscount::find($id);
-        if (!$service || $service?->id != $id) {
+        if (! $service || $service?->id != $id) {
             return $this->sendError("ID {$id} not found");
         }
 
-        if (!MainHelper::isAdmin() && $service->created_user_id != MainHelper::getUserId()) {
-            return $this->sendError("Not have permission", code: 403);
+        if (! MainHelper::isAdmin() && $service->created_user_id != MainHelper::getUserId()) {
+            return $this->sendError('Not have permission', code: 403);
         }
 
         $validate = MainHelper::validate($request, ServiceDiscount::UPDATING_RULES);
@@ -90,14 +77,14 @@ class ServiceDiscountController extends BaseController
         }
 
         $arFields = $validate->getData();
-        foreach ($arFields as $key=>$value) {
+        foreach ($arFields as $key => $value) {
             $service->$key = $value;
         }
 
         try {
             $service->save();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse($service);
@@ -105,27 +92,23 @@ class ServiceDiscountController extends BaseController
 
     /**
      * Delete ServiceDiscount
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
      */
     public function delete(Request $request, int $id): JsonResponse
     {
         $service = ServiceDiscount::find($id);
 
-        if (!$service || $service?->id != $id) {
+        if (! $service || $service?->id != $id) {
             return $this->sendError("ID {$id} not found");
         }
 
-        if (!MainHelper::isAdmin() && $service->created_user_id != MainHelper::getUserId()) {
-            return $this->sendError("Not have permission", code: 403);
+        if (! MainHelper::isAdmin() && $service->created_user_id != MainHelper::getUserId()) {
+            return $this->sendError('Not have permission', code: 403);
         }
 
         try {
             $service->delete();
         } catch (\Exception $exception) {
-            return $this->sendServerError("DB_error", $exception->getMessage());
+            return $this->sendServerError('DB_error', $exception->getMessage());
         }
 
         return $this->sendResponse(true);

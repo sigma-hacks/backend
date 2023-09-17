@@ -115,8 +115,6 @@ class BusRouteStation extends Model
 
     /**
      * Relationship for getting Company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {
@@ -125,8 +123,6 @@ class BusRouteStation extends Model
 
     /**
      * Relationship for getting BusRoute
-     *
-     * @return HasOne
      */
     public function busRoute(): HasOne
     {

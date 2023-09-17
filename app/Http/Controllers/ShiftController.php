@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\MainHelper;
 use App\Models\Shift;
 use App\Models\User;
 use Exception;
@@ -11,7 +10,6 @@ use Illuminate\Http\Request;
 
 class ShiftController extends BaseController
 {
-
     public static function getShift(Request $request)
     {
         /** @var User $user */
@@ -25,23 +23,20 @@ class ShiftController extends BaseController
 
     /**
      * Starting shift
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function start(Request $request): JsonResponse
     {
         $user = $request->user();
         $createdAt = date('Y-m-d H:i:s');
 
-        if( $request->has('request_at') ) {
+        if ($request->has('request_at')) {
             $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
         $oldShift = self::getShift($request);
-        if( $oldShift?->id >= 1 ) {
+        if ($oldShift?->id >= 1) {
             return $this->sendError('Please finishing shift for started new shift!', [
-                "Shift ID:{$oldShift->id} now is not finished"
+                "Shift ID:{$oldShift->id} now is not finished",
             ], 409);
         }
 
@@ -52,7 +47,7 @@ class ShiftController extends BaseController
             'started_at' => $createdAt,
             'finished_at' => null,
             'created_at' => $createdAt,
-            'updated_at' => $createdAt
+            'updated_at' => $createdAt,
         ]);
 
         try {
@@ -66,22 +61,18 @@ class ShiftController extends BaseController
 
     /**
      * Starting shift
-     *
-     * @param Request $request
-     * @param int $shiftId
-     * @return JsonResponse
      */
     public function stop(Request $request, int $shiftId): JsonResponse
     {
         $createdAt = date('Y-m-d H:i:s');
 
-        if( $request->has('request_at') ) {
+        if ($request->has('request_at')) {
             $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
         $user = $request->user();
         $shift = self::getShift($request);
-        if( !$shift?->id ) {
+        if (! $shift?->id) {
             return $this->sendError('Shift not found');
         }
 
@@ -96,5 +87,4 @@ class ShiftController extends BaseController
 
         return $this->sendResponse($shift);
     }
-
 }

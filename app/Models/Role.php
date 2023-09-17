@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
 {
-
     use HasFactory;
 
     /**
@@ -52,7 +51,7 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     /**
@@ -83,12 +82,9 @@ class Role extends Model
 
     /**
      * Relationship for connect Users with Role
-     *
-     * @return HasMany
      */
     public function users(): HasMany
     {
         return $this->hasMany(User::class, 'role_id', 'id');
     }
-
 }

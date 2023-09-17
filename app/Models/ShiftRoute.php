@@ -60,7 +60,7 @@ class ShiftRoute extends Model
         'pos_lat',
         'pos_lng',
         'started_at',
-        'finished_at'
+        'finished_at',
     ];
 
     /**
@@ -106,12 +106,12 @@ class ShiftRoute extends Model
     {
         return [
             'shift_id' => 'required|integer|exists:shifts,id',
-            'employer_id' => ['required', 'integer', Rule::exists('users', 'id')->where(fn($query) => $query->where('role_id', '=', User::ROLE_EMPLOYEE))],
+            'employer_id' => ['required', 'integer', Rule::exists('users', 'id')->where(fn ($query) => $query->where('role_id', '=', User::ROLE_EMPLOYEE))],
             'vehicle_number' => 'required|string',
             'pos_lat' => ['numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'pos_lng' => ['numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'started_at' => 'date_format:Y-m-d H:i:s',
-            'finished_at' => 'date_format:Y-m-d H:i:s'
+            'finished_at' => 'date_format:Y-m-d H:i:s',
         ];
     }
 
@@ -122,8 +122,7 @@ class ShiftRoute extends Model
             'pos_lat' => ['numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'pos_lng' => ['numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'started_at' => 'date_format:Y-m-d H:i:s',
-            'finished_at' => 'date_format:Y-m-d H:i:s'
+            'finished_at' => 'date_format:Y-m-d H:i:s',
         ];
     }
-
 }

@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property integer $created_user_id
- * @property integer $company_id
- * @property integer $name
- * @property integer $amount
+ * @property int $created_user_id
+ * @property int $company_id
+ * @property int $name
+ * @property int $amount
  */
 class CardTariff extends Model
 {
@@ -62,7 +61,7 @@ class CardTariff extends Model
         'company_id',
         'name',
         'amount',
-        'conditions'
+        'conditions',
     ];
 
     /**
@@ -92,8 +91,6 @@ class CardTariff extends Model
 
     /**
      * Relationship for getting createdUser
-     *
-     * @return HasOne
      */
     public function created_user(): HasOne
     {
@@ -102,8 +99,6 @@ class CardTariff extends Model
 
     /**
      * Relationship for getting Company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {

@@ -30,21 +30,21 @@ class CardFactory extends Factory
         $avialableTariffs = [null];
         if ($userAge >= 6 && $userAge <= 19) {
             $avialableTariffs[] = 1;
-        } else if ($userAge >= 45) {
+        } elseif ($userAge >= 45) {
             $avialableTariffs[] = 2;
-        } else if ($userAge <= 150) {
+        } elseif ($userAge <= 150) {
             $avialableTariffs[] = 3;
         }
 
         $tariffId = MainHelper::getRandomValue($avialableTariffs);
 
         return [
-            'is_active' => rand(0,1) === 1,
+            'is_active' => rand(0, 1) === 1,
             'user_id' => $user->id,
             'tariff_id' => $tariffId,
-            'tariff_expired_at' => $tariffId ? date('Y-m-d H:i:s', rand(1600376204,1789592204)) : null,
-            'identifier' => '2200' . (100000000000 + $user->id),
-            'expired_at' => date('Y-m-d H:i:s', rand(1600376204,1789592204)),
+            'tariff_expired_at' => $tariffId ? date('Y-m-d H:i:s', rand(1600376204, 1789592204)) : null,
+            'identifier' => '2200'.(100000000000 + $user->id),
+            'expired_at' => date('Y-m-d H:i:s', rand(1600376204, 1789592204)),
         ];
     }
 }

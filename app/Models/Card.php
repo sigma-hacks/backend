@@ -56,7 +56,7 @@ class Card extends Model
         'tariff_expired_at',
         'tariff_id',
         'user_id',
-        'is_active'
+        'is_active',
     ];
 
     /**
@@ -87,8 +87,6 @@ class Card extends Model
 
     /**
      * Relation for getting user company
-     *
-     * @return HasOne
      */
     public function user(): HasOne
     {
@@ -97,12 +95,9 @@ class Card extends Model
 
     /**
      * Relation for getting user company
-     *
-     * @return HasOne
      */
     public function tariff(): HasOne
     {
         return $this->hasOne(CardTariff::class, 'id', 'tariff_id');
     }
-
 }

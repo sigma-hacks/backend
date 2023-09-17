@@ -19,12 +19,16 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
     const ROLE_GUEST = 0;
+
     const ROLE_USER = 1;
+
     const ROLE_ADMIN = 2;
+
     const ROLE_PARTNER = 3;
+
     const ROLE_EMPLOYEE = 4;
+
     protected $fillable = [
         'role_id',
         'company_id',
@@ -36,7 +40,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
-        'photo'
+        'photo',
     ];
 
     /**
@@ -66,8 +70,6 @@ class User extends Authenticatable
 
     /**
      * Relation for getting user company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {
@@ -76,8 +78,6 @@ class User extends Authenticatable
 
     /**
      * Relation for getting user role
-     *
-     * @return HasOne
      */
     public function role(): HasOne
     {
@@ -86,8 +86,6 @@ class User extends Authenticatable
 
     /**
      * Relation for getting cards
-     *
-     * @return HasMany
      */
     public function cards(): HasMany
     {

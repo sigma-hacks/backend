@@ -55,7 +55,7 @@ class Company extends Model
         'name',
         'code',
         'photo',
-        'description'
+        'description',
     ];
 
     /**
@@ -85,8 +85,6 @@ class Company extends Model
 
     /**
      * Relationship for connect Users with Role
-     *
-     * @return HasMany
      */
     public function users(): HasMany
     {
@@ -96,12 +94,12 @@ class Company extends Model
     public const CREATING_RULES = [
         'name' => 'required|string',
         'photo' => 'string',
-        'description' => 'string'
+        'description' => 'string',
     ];
 
     public const UPDATING_RULES = [
         'name' => 'string',
         'photo' => 'string',
-        'description' => 'string'
+        'description' => 'string',
     ];
 }

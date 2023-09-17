@@ -3,39 +3,37 @@
 namespace Database\Seeders;
 
 use Exception;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class RolesSeeder extends Seeder
 {
-
-    static array $roles = [
+    public static array $roles = [
         [
             'is_guest' => true,
             'name' => 'Гость',
-            'code' => 'guest'
+            'code' => 'guest',
         ],
         [
             'is_default' => true,
             'name' => 'Пользователь',
-            'code' => 'user'
+            'code' => 'user',
         ],
         [
             'is_admin' => true,
             'name' => 'Администратор',
-            'code' => 'admin'
+            'code' => 'admin',
         ],
         [
             'is_partner' => true,
             'name' => 'Партнер',
-            'code' => 'partner'
+            'code' => 'partner',
         ],
         [
             'is_employee' => true,
             'name' => 'Сотрудник',
-            'code' => 'employee'
-        ]
+            'code' => 'employee',
+        ],
     ];
 
     /**
@@ -49,7 +47,7 @@ class RolesSeeder extends Seeder
                 $roleData = [
                     'id' => $key,
                     'name' => $role['name'],
-                    'code' => $role['code']
+                    'code' => $role['code'],
                 ];
 
                 $roleData['is_guest'] = $role['is_guest'] ?? false;

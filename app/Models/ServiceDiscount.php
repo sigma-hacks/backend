@@ -105,7 +105,7 @@ class ServiceDiscount extends Model
         'amount' => 'integer',
         'discount_type' => 'string',
         'started_at' => 'date_format:Y-m-d H:i:s',
-        'finished_at' => 'date_format:Y-m-d H:i:s'
+        'finished_at' => 'date_format:Y-m-d H:i:s',
     ];
 
     const UPDATING_RULES = [
@@ -115,13 +115,11 @@ class ServiceDiscount extends Model
         'amount' => 'integer',
         'discount_type' => 'string',
         'started_at' => 'date_format:Y-m-d H:i:s',
-        'finished_at' => 'date_format:Y-m-d H:i:s'
+        'finished_at' => 'date_format:Y-m-d H:i:s',
     ];
 
     /**
      * Relationship for getting CreatedUser
-     *
-     * @return HasOne
      */
     public function created_user(): HasOne
     {
@@ -130,8 +128,6 @@ class ServiceDiscount extends Model
 
     /**
      * Relationship for getting company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {
@@ -140,8 +136,6 @@ class ServiceDiscount extends Model
 
     /**
      * Relationship for getting tariff
-     *
-     * @return HasOne
      */
     public function tariff(): HasOne
     {
@@ -150,8 +144,6 @@ class ServiceDiscount extends Model
 
     /**
      * Relationship for getting service
-     *
-     * @return HasOne
      */
     public function service(): HasOne
     {

@@ -2,12 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Helpers\MainHelper;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiIsRoleMiddleware extends AbstractMiddleware
@@ -15,7 +12,7 @@ class ApiIsRoleMiddleware extends AbstractMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
@@ -26,11 +23,11 @@ class ApiIsRoleMiddleware extends AbstractMiddleware
         }
 
         $bookRoles = [
-            "admin" => User::ROLE_ADMIN,
+            'admin' => User::ROLE_ADMIN,
             'user' => User::ROLE_USER,
             'employer' => User::ROLE_EMPLOYEE,
             'guest' => User::ROLE_GUEST,
-            'partner' => User::ROLE_PARTNER
+            'partner' => User::ROLE_PARTNER,
         ];
 
         $validateRoles = [];

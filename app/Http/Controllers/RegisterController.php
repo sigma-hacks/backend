@@ -12,12 +12,8 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends BaseController
 {
-
     /**
      * Register api
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function register(Request $request): JsonResponse
     {
@@ -27,10 +23,10 @@ class RegisterController extends BaseController
             'password' => 'required',
             'pin' => 'integer',
             'identify' => 'integer',
-            'employee_card' => 'integer'
+            'employee_card' => 'integer',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return $this->sendError('Validation Error', $validator->errors()->toArray());
         }
 
@@ -52,17 +48,14 @@ class RegisterController extends BaseController
             return $this->sendServerError('User cant be saved', ['error' => $e->getMessage()]);
         }
 
-        $success['token'] =  $user->createToken('registration')->plainTextToken;
-        $success['name'] =  $user->name;
+        $success['token'] = $user->createToken('registration')->plainTextToken;
+        $success['name'] = $user->name;
 
         return $this->sendResponse($success, 200, ['User register successfully.']);
     }
 
     /**
      * User login
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function login(Request $request): JsonResponse
     {
@@ -82,17 +75,16 @@ class RegisterController extends BaseController
 
         $isAttemptUser = Auth::attempt([
             $field => $login,
-            'password' => $authType === 'pin' ? $request->input('pin') : $request->input('password')
+            'password' => $authType === 'pin' ? $request->input('pin') : $request->input('password'),
         ]);
 
-        if( $isAttemptUser ) {
+        if ($isAttemptUser) {
             $user = Auth::user();
             $success['token'] = $user->createToken('login')->plainTextToken;
 
             return $this->sendResponse($success, 200, ['User login successfully.']);
         }
 
-        return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
     }
-
 }

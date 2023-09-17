@@ -3,14 +3,12 @@
 namespace Database\Seeders;
 
 use Exception;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class TariffsSeeder extends Seeder
 {
-
-    static array $tariffs = [
+    public static array $tariffs = [
         [
             'created_user_id' => 1,
             'company_id' => 0,
@@ -18,8 +16,8 @@ class TariffsSeeder extends Seeder
             'amount' => 15,
             'is_active' => true,
             'conditions' => [
-                'age' => ['from' => 6, 'to' => 23]
-            ]
+                'age' => ['from' => 6, 'to' => 23],
+            ],
         ],
         [
             'created_user_id' => 1,
@@ -28,8 +26,8 @@ class TariffsSeeder extends Seeder
             'amount' => 55,
             'is_active' => true,
             'conditions' => [
-                'age' => ['from' => 45, 'to' => 150]
-            ]
+                'age' => ['from' => 45, 'to' => 150],
+            ],
         ],
         [
             'created_user_id' => 1,
@@ -38,9 +36,9 @@ class TariffsSeeder extends Seeder
             'amount' => 25,
             'is_active' => true,
             'conditions' => [
-                'age' => ['from' => 0, 'to' => 150]
-            ]
-        ]
+                'age' => ['from' => 0, 'to' => 150],
+            ],
+        ],
     ];
 
     /**

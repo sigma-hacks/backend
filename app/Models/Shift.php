@@ -89,8 +89,6 @@ class Shift extends Model
 
     /**
      * Relationship for getting created_user
-     *
-     * @return HasOne
      */
     public function created_user(): HasOne
     {
@@ -99,8 +97,6 @@ class Shift extends Model
 
     /**
      * Relationship for getting Company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {
@@ -109,8 +105,6 @@ class Shift extends Model
 
     /**
      * Relationship for getting busRoute
-     *
-     * @return HasOne
      */
     public function busRoute(): HasOne
     {

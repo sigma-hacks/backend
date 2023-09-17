@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\MainHelper;
 use App\Models\ShiftRoute;
 use App\Models\User;
 use Exception;
@@ -18,15 +17,14 @@ class ShiftRoutesController extends CRUDBaseController
     /**
      * Getting shift routes by shiftId
      *
-     * @param int $shiftId
-     * @param Request $request
+     * @param  Request  $request
      * @return Builder[]|Collection
      */
     public static function getShiftRoute(int $shiftId, bool $isActive = null)
     {
         $query = ShiftRoute::query()->where('shift_id', $shiftId);
 
-        if( $isActive !== null ) {
+        if ($isActive !== null) {
             $query->where('is_active', $isActive);
         }
 
@@ -35,9 +33,6 @@ class ShiftRoutesController extends CRUDBaseController
 
     /**
      * Stoping shift routes
-     *
-     * @param int $shiftId
-     * @return array
      */
     public static function stopShiftRoutes(int $shiftId, string $finishedAt): array
     {
@@ -56,15 +51,12 @@ class ShiftRoutesController extends CRUDBaseController
 
         return [
             'shiftRoutes' => $shiftRoutes,
-            'errors' => $errorMessages
+            'errors' => $errorMessages,
         ];
     }
 
     /**
      * Start shift route
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function start(Request $request): JsonResponse
     {
@@ -74,11 +66,11 @@ class ShiftRoutesController extends CRUDBaseController
 
         $finishedAt = date('Y-m-d H:i:s');
 
-        if( $request->has('request_at') ) {
+        if ($request->has('request_at')) {
             $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
-        if( !$shift?->id ) {
+        if (! $shift?->id) {
             return $this->sendError('Not found started shifts');
         }
 
@@ -93,7 +85,7 @@ class ShiftRoutesController extends CRUDBaseController
             'pos_lng' => $request->input('pos_lng'),
             'started_at' => $request->has('request_at') ? date('Y-m-d H:i:s', strtotime($request->input('request_at'))) : date('Y-m-d H:i:s'),
             'finished_at' => null,
-            'bus_router_id' => (int) $request->input('bus_router_id') ?? 0
+            'bus_router_id' => (int) $request->input('bus_router_id') ?? 0,
         ]);
 
         try {
@@ -107,9 +99,6 @@ class ShiftRoutesController extends CRUDBaseController
 
     /**
      * Stop shift routes
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function stop(Request $request): JsonResponse
     {
@@ -117,11 +106,11 @@ class ShiftRoutesController extends CRUDBaseController
         $finishedAt = date('Y-m-d H:i:s');
         $shift = ShiftController::getShift($request);
 
-        if( $request->has('request_at') ) {
+        if ($request->has('request_at')) {
             $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
-        if( !$shift?->id ) {
+        if (! $shift?->id) {
             return $this->sendError('Not found started shifts');
         }
 
@@ -130,5 +119,28 @@ class ShiftRoutesController extends CRUDBaseController
         return $this->sendResponse($data['shiftRoutes'], 200, $data['errors']);
     }
 
-    public function
+    /**
+     * Checking user card
+     */
+    public function check(Request $request): JsonResponse
+    {
+
+        $shift = ShiftController::getShift($request);
+
+        if(! $shift?->id) {
+            return $this->sendError('Not found started shifts, please starting shift and try again');
+        }
+
+        $shiftRoutes = self::getShiftRoute($shift->id, true);
+
+        if($shiftRoutes->isEmpty()) {
+            return $this->sendError('Not found started shift routes, please starting shift route and try again');
+        }
+
+        $shiftRoute = $shiftRoutes->first();
+
+        
+
+        return $this->sendResponse([]);
+    }
 }

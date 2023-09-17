@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BusRoute extends Model
@@ -88,8 +87,6 @@ class BusRoute extends Model
 
     /**
      * Relationship for getting User
-     *
-     * @return HasOne
      */
     public function user(): HasOne
     {
@@ -98,8 +95,6 @@ class BusRoute extends Model
 
     /**
      * Relationship for getting Company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {

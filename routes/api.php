@@ -12,7 +12,6 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ShiftRoutesController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\UsersController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,17 +30,17 @@ Route::get('test', [TestingController::class, 'test'])->name('api.test');
 /**
  * Auth routes
  */
-Route::prefix('auth')->group(function() {
+Route::prefix('auth')->group(function () {
 
     Route::post('login', [RegisterController::class, 'login'])->name('auth.login');
     Route::post('register', [RegisterController::class, 'register'])->name('auth.register');
 
-    Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('tokens/create', [AuthorizationController::class, 'createPersonalToken'])->name('auth.token.create');
     });
 });
 
-Route::prefix('card-tariff')->name('card_tariff')->group(function() {
+Route::prefix('card-tariff')->name('card_tariff')->group(function () {
     Route::get('', [CardTariffController::class, 'index'])->name('all');
     Route::get('{id}', [CardTariffController::class, 'only'])->name('only');
 
@@ -52,14 +51,13 @@ Route::prefix('card-tariff')->name('card_tariff')->group(function() {
     });
 });
 
-
 Route::prefix('bus')->group(function () {
     Route::prefix('route')->group(function () {
         Route::prefix('stations')->group(function () {
             Route::get('', [BusRouteStationController::class, 'index']);
             Route::get('{id}', [BusRouteStationController::class, 'only']);
 
-            Route::middleware(['auth:sanctum','roles:admin'])->group(function () {
+            Route::middleware(['auth:sanctum', 'roles:admin'])->group(function () {
                 Route::post('', [BusRouteStationController::class, 'store']);
                 Route::patch('{id}', [BusRouteStationController::class, 'update']);
                 Route::delete('{id}', [BusRouteStationController::class, 'delete']);
@@ -68,7 +66,7 @@ Route::prefix('bus')->group(function () {
     });
 });
 
-Route::middleware(['auth:sanctum','roles:admin,user'])->get('/test', function () {
+Route::middleware(['auth:sanctum', 'roles:admin,user'])->get('/test', function () {
     return 1;
 });
 
@@ -91,7 +89,7 @@ Route::prefix('companies')->group(function () {
     Route::get('', [CompaniesController::class, 'index'])->name('companies.list');
     Route::get('{id}', [CompaniesController::class, 'single'])->name('companies.single');
 
-    Route::middleware(['auth:sanctum','roles:admin'])->group(function () {
+    Route::middleware(['auth:sanctum', 'roles:admin'])->group(function () {
         Route::post('', [CompaniesController::class, 'store'])->name('companies.create');
         Route::patch('{id}', [CompaniesController::class, 'update'])->name('companies.create');
     });
@@ -117,7 +115,7 @@ Route::prefix('company')->group(function () {
     });
 });
 
-Route::prefix('service_discount')->name('service_discount')->group(function() {
+Route::prefix('service_discount')->name('service_discount')->group(function () {
     Route::get('', [ServiceDiscountController::class, 'index'])->name('all');
     Route::get('{id}', [ServiceDiscountController::class, 'only'])->name('only');
 
@@ -128,17 +126,17 @@ Route::prefix('service_discount')->name('service_discount')->group(function() {
     });
 });
 
-Route::prefix('shift')->middleware(['auth:sanctum'])->group(function() {
+Route::prefix('shift')->middleware(['auth:sanctum'])->group(function () {
     Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
     Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
 
-    Route::prefix('route')->group(function() {
+    Route::prefix('route')->group(function () {
         Route::post('start', [ShiftController::class, 'start'])->name('shift.start');
         Route::post('stop', [ShiftController::class, 'stop'])->name('shift.stop');
     });
 });
 
-Route::prefix('shift_route')->name('shift_route')->group(function() {
+Route::prefix('shift_route')->name('shift_route')->group(function () {
     Route::get('', [ShiftRoutesController::class, 'index'])->name('all');
     Route::get('{id}', [ShiftRoutesController::class, 'only'])->name('only');
 

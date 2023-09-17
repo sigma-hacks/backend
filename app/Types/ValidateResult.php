@@ -5,8 +5,11 @@ namespace App\Types;
 class ValidateResult
 {
     private bool $status;
+
     private string $error;
+
     private array $fields_error;
+
     private array $data;
 
     public function __construct(bool $status = false, array $data = [], string $error = '', array $fields_error = [])
@@ -47,22 +50,21 @@ class ValidateResult
         return json_encode($this->toArray());
     }
 
-
     public function toArray(): array
     {
         $result = [
-            'status' => $this->status
+            'status' => $this->status,
         ];
 
-        if (!empty($this->error)) {
+        if (! empty($this->error)) {
             $result['error'] = $this->error;
         }
 
-        if (!empty($this->data)) {
+        if (! empty($this->data)) {
             $result['data'] = $this->data;
         }
 
-        if (!empty($this->fields_error)) {
+        if (! empty($this->fields_error)) {
             $result['fields_error'] = $this->fields_error;
         }
 
@@ -75,6 +77,7 @@ class ValidateResult
         foreach ($this->toArray() as $key => $value) {
             $result .= "{$key}={$value}&";
         }
+
         return $result;
     }
 }

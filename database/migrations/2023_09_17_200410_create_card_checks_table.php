@@ -24,10 +24,10 @@ return new class extends Migration
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->index(['company_id','employer_id']);
-            $table->index(['created_at','checked_at']);
-            $table->index(['checked_at','updated_at']);
-            $table->index(['pos_lat','pos_lng']);
+            $table->index(['company_id', 'employer_id']);
+            $table->index(['created_at', 'checked_at']);
+            $table->index(['checked_at', 'updated_at']);
+            $table->index(['pos_lat', 'pos_lng']);
         });
     }
 

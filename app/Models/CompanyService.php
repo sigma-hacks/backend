@@ -85,8 +85,6 @@ class CompanyService extends Model
 
     /**
      * Relationship for getting Company
-     *
-     * @return HasOne
      */
     public function company(): HasOne
     {
@@ -97,13 +95,12 @@ class CompanyService extends Model
         'company_id' => 'integer',
         'name' => 'required|string',
         'price' => 'integer',
-        'photo' => 'string'
+        'photo' => 'string',
     ];
 
     public const UPDATING_RULES = [
         'name' => 'string',
         'price' => 'integer',
-        'photo' => 'string'
+        'photo' => 'string',
     ];
-
 }

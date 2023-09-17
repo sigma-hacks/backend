@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('bus_route_id')->references('id')->on('bus_routes')->cascadeOnUpdate()->cascadeOnDelete();
 
-            $table->index(['started_at','finished_at']);
-            $table->index(['company_id','bus_route_id']);
+            $table->index(['started_at', 'finished_at']);
+            $table->index(['company_id', 'bus_route_id']);
         });
     }
 
