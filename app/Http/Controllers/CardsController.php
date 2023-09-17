@@ -6,6 +6,7 @@ use App\Models\CardTariff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class CardsController extends BaseController
@@ -28,6 +29,8 @@ class CardsController extends BaseController
         return $cardsQuery;
     }
 
+    public const CARDS_CACHE_KEY = "cards-resource";
+
     /**
      * For sync users and cards data on android
      *
@@ -37,35 +40,45 @@ class CardsController extends BaseController
     public function getCardsData(Request $request): JsonResponse
     {
 
-        $cardsQuery = $this->getCards($request->input('updated_at'));
+        $updatedAt = $request->input('updated_at');
+        $updatedAtHash = md5($updatedAt);
 
-        $cards = $cardsQuery->get();
-        $names = [];
+        $cacheKey = self::CARDS_CACHE_KEY;
+        if( $updatedAt ) {
+            $cacheKey .= "-{$updatedAtHash}";
+        }
 
-        $transformedCards = $cards->map(function ($card) use (&$names) {
-            $exName = explode(' ', $card->un);
-            unset($exName[0]);
+        return Cache::remember($cacheKey, 60*60, function() use ($updatedAt) {
+            $cardsQuery = $this->getCards($updatedAt);
 
-            $exName[2] = mb_substr($exName[2], 0, 1) . '.';
-            $name = join(' ', $exName);
+            $cards = $cardsQuery->get();
+            $names = [];
 
-            $nameHash = intval(hash('crc32b', $name), 16);
-            $names[$nameHash] = $name;
+            $transformedCards = $cards->map(function ($card) use (&$names) {
+                $exName = explode(' ', $card->un);
+                unset($exName[0]);
 
-            return [
-                $nameHash,
-                $card->bd ?? 0,
-                $card->cn ?? 0,
-                $card->ed ?? 0,
-                $card->ti ?? 0
-            ];
-        })->all();
+                $exName[2] = mb_substr($exName[2], 0, 1) . '.';
+                $name = join(' ', $exName);
 
-        return $this->sendResponse([
-            'tariffs' => CardTariff::select('name','amount','is_active')->where('company_id', 0)->get(),
-            'names' => $names,
-            'cards' => $transformedCards,
-        ]);
+                $nameHash = intval(hash('crc32b', $name), 16);
+                $names[$nameHash] = $name;
+
+                return [
+                    $nameHash,
+                    $card->bd ?? 0,
+                    $card->cn ?? 0,
+                    $card->ed ?? 0,
+                    $card->ti ?? 0
+                ];
+            })->all();
+
+            return $this->sendResponse([
+                'tariffs' => CardTariff::select('name', 'amount', 'is_active')->where('company_id', 0)->get(),
+                'names' => $names,
+                'cards' => $transformedCards,
+            ]);
+        });
     }
 
     /**
