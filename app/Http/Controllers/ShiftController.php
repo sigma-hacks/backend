@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ShiftController extends BaseController
 {
 
-    public function getShift(Request $request)
+    public static function getShift(Request $request)
     {
         /** @var User $user */
         $user = $request->user();
@@ -38,7 +38,7 @@ class ShiftController extends BaseController
             $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
-        $oldShift = $this->getShift($request);
+        $oldShift = self::getShift($request);
         if( $oldShift?->id >= 1 ) {
             return $this->sendError('Shift was started');
         }
