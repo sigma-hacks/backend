@@ -296,22 +296,22 @@ class MainHelper
 
     public static function isAdmin(): bool
     {
-        return self::getUser()??->role_id == User::ROLE_ADMIN;
+        return self::getUser()?->role_id == User::ROLE_ADMIN;
     }
 
     public static function isPartner(): bool
     {
-        return self::getUser()??->role_id == User::ROLE_ADMIN;
+        return self::getUser()?->role_id == User::ROLE_ADMIN;
     }
 
     public static function isUser(): bool
     {
-        return self::getUser()??->role_id == User::ROLE_ADMIN;
+        return self::getUser()?->role_id == User::ROLE_ADMIN;
     }
 
     public static function isEmployer(): bool
     {
-        return self::getUser()??->role_id == User::ROLE_ADMIN;
+        return self::getUser()?->role_id == User::ROLE_ADMIN;
     }
 
     public static function getCompanyId(): int | null

@@ -19,7 +19,8 @@ class ShiftRoutesController extends CRUDBaseController
     public function start(Request $request): JsonResponse
     {
 
-
+        $user = $request->user();
+        ShiftController::getShift($request);
 
         return $this->sendResponse([]);
     }
