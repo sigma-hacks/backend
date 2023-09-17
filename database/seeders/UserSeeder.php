@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Card;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Seeder;
