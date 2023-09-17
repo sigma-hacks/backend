@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shifts', function (Blueprint $table) {
+            $table->dropForeign('shifts_bus_route_id_foreign');
             $table->dropIndex('shifts_bus_route_id_index');
             $table->dropColumn('bus_route_id');
             $table->dropColumn('veh_number');
