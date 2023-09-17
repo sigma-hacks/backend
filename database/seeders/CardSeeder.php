@@ -18,6 +18,8 @@ class CardSeeder extends Seeder
             $chunks->each(function ($chunk) {
                 Card::insert($chunk->toArray());
             });
+
+            echo "Work with index: {$i}\n\r";
         }
     }
 }
