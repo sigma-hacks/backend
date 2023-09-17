@@ -45,7 +45,7 @@ class RolesSeeder extends Seeder
         foreach (self::$roles as $key => $role) {
             try {
                 $roleData = [
-                    'id' => $key,
+                    'id' => $key + 1,
                     'name' => $role['name'],
                     'code' => $role['code'],
                 ];
