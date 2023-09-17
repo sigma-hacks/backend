@@ -62,7 +62,7 @@ class ShiftController extends BaseController
     /**
      * Starting shift
      */
-    public function stop(Request $request, int $shiftId): JsonResponse
+    public function stop(Request $request): JsonResponse
     {
         $createdAt = date('Y-m-d H:i:s');
 
