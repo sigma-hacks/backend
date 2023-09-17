@@ -13,9 +13,9 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        for( $i = 0; $i <= 3; $i++ ) {
+        for( $i = 0; $i <= 400; $i++ ) {
             echo "Work with index: {$i}\n\r";
-            User::factory(1000)->create();
+            User::factory()->count(10)->create();
         }
     }
 }
