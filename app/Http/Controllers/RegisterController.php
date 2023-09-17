@@ -52,7 +52,7 @@ class RegisterController extends BaseController
             return $this->sendServerError('User cant be saved', ['error' => $e->getMessage()]);
         }
 
-        $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+        $success['token'] =  $user->createToken('registration')->plainTextToken;
         $success['name'] =  $user->name;
 
         return $this->sendResponse($success, 200, ['User register successfully.']);
@@ -66,14 +66,27 @@ class RegisterController extends BaseController
      */
     public function login(Request $request): JsonResponse
     {
+
+        $login = (string) $request->input('login');
+
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        } elseif (preg_match('/^\d{3}-\d{3}$/', $login)) {
+            $field = 'identify';
+        } elseif (preg_match('/^\d{4}-\d{4}-\d{4}-\d{4}$/', $login)) {
+            $field = 'employee_card';
+        } else {
+            return $this->sendError('Invalid "login" format. Need to be: 123-456 or email, or card number (ex.: 2202-3512-3456-7890)', [], 412);
+        }
+
         $isAttemptUser = Auth::attempt([
-            'email' => $request->input('email'),
+            $field => $login,
             'password' => $request->input('password')
         ]);
 
         if( $isAttemptUser ) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['token'] = $user->createToken('login')->plainTextToken;
 
             return $this->sendResponse($success, 200, ['User login successfully.']);
         }

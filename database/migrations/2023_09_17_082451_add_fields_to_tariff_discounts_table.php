@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tariff_discounts', function (Blueprint $table) {
-            $table->id();
-            $table->dateTime('created_at')->useCurrent();
-            $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
+        Schema::table('tariff_discounts', function (Blueprint $table) {
+
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tariff_discounts');
+        Schema::table('tariff_discounts', function (Blueprint $table) {
+            //
+        });
     }
 };
