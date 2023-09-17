@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Company;
 use App\Models\User;
 use App\Types\ValidateResult;
 use Illuminate\Http\Request;
@@ -278,7 +279,7 @@ class MainHelper
 
     public static function getCompanyId(): ?int
     {
-        return self::getUser()?->company_id;
+        return self::getUser()?->company_id ?? Company::DEFAULT_ID;
     }
 
     public static function getUserId(): ?int

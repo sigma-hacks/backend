@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,7 @@ class TariffsSeeder extends Seeder
     public static array $tariffs = [
         [
             'created_user_id' => 1,
-            'company_id' => 0,
+            'company_id' => Company::DEFAULT_ID,
             'name' => 'Обучающийся',
             'amount' => 15,
             'is_active' => true,
@@ -21,7 +22,7 @@ class TariffsSeeder extends Seeder
         ],
         [
             'created_user_id' => 1,
-            'company_id' => 0,
+            'company_id' => Company::DEFAULT_ID,
             'name' => 'Пенсионер',
             'amount' => 55,
             'is_active' => true,
@@ -31,7 +32,7 @@ class TariffsSeeder extends Seeder
         ],
         [
             'created_user_id' => 1,
-            'company_id' => 0,
+            'company_id' => Company::DEFAULT_ID,
             'name' => 'Премиальный проезд',
             'amount' => 25,
             'is_active' => true,

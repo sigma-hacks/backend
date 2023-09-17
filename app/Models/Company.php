@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
+
+    public const DEFAULT_ID = 1;
+
     use HasFactory;
 
     /**
