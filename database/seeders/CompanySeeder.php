@@ -39,7 +39,7 @@ class CompanySeeder extends Seeder
     {
         foreach (self::$companies as $key => $company) {
             try {
-                $company['id'] = $key;
+                $company['id'] = $key + 1;
                 DB::table('companies')->insert($company);
             } catch (Exception $e) {
                 // Empty catch =(
