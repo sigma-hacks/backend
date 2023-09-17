@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CompaniesSeeder extends Seeder
+class CompanySeeder extends Seeder
 {
     public static array $companies = [
         [
@@ -42,7 +42,7 @@ class CompaniesSeeder extends Seeder
                 $company['id'] = $key;
                 DB::table('companies')->insert($company);
             } catch (Exception $e) {
-                // empty catch =(
+                // Empty catch =(
             }
         }
     }

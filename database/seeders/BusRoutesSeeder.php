@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class BusRoutesSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      */
@@ -24,10 +23,12 @@ class BusRoutesSeeder extends Seeder
                     'company_id' => 0,
                     'price' => rand(5, 80),
                     'price_station' => rand(0, 15) === 1 ? rand(1, 3) : 0,
-                    'price_distance' => rand(0, 15) === 1 ? rand(1, 3) : 0
+                    'price_distance' => rand(0, 15) === 1 ? rand(1, 3) : 0,
                 ]);
             }
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+            // Empty catch
+        }
 
     }
 }
