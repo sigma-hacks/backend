@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helpers\MainHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -27,8 +28,8 @@ class UserFactory extends Factory
             'name' => $name,
             'code' => fake()->numerify(Str::slug($name).'-######'),
             'phone' => '79'.fake()->unique()->numberBetween(000000001, 999099090),
-            'email' => fake()->unique()->freeEmail(),
-            'password' => Hash::make(fake()->password(8, 32)),
+            'email' => MainHelper::randomString(6) . '-' . rand(100, 100000) . '@' . MainHelper::randomString(6) . '.ru',
+            'password' => Hash::make(MainHelper::randomString(3)),
             'birth_date' => $birth_date,
         ];
     }
