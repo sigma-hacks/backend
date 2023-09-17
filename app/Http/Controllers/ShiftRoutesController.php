@@ -74,7 +74,7 @@ class ShiftRoutesController extends CRUDBaseController
 
         $finishedAt = date('Y-m-d H:i:s');
 
-        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+        if( $request->has('request_at') ) {
             $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
@@ -117,7 +117,7 @@ class ShiftRoutesController extends CRUDBaseController
         $finishedAt = date('Y-m-d H:i:s');
         $shift = ShiftController::getShift($request);
 
-        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+        if( $request->has('request_at') ) {
             $finishedAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
         }
 
