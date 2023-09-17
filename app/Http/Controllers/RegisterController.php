@@ -68,6 +68,7 @@ class RegisterController extends BaseController
     {
 
         $login = (string) $request->input('login');
+        $authType = (string) $request->input('type') ?? 'password';
 
         if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             $field = 'email';
@@ -81,7 +82,7 @@ class RegisterController extends BaseController
 
         $isAttemptUser = Auth::attempt([
             $field => $login,
-            'password' => $request->input('password')
+            'password' => $authType === 'pin' ? $request->input('pin') : $request->input('password')
         ]);
 
         if( $isAttemptUser ) {
