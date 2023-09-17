@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Shift;
 use App\Models\User;
 use Exception;
@@ -14,7 +15,7 @@ class ShiftController extends BaseController
     {
         /** @var User $user */
         $user = $request->user();
-        $companyId = $user->company_id ?? 0;
+        $companyId = $user->company_id ?? Company::DEFAULT_ID;
 
         $shift = Shift::where('created_user_id', $user->id)->where('company_id', $companyId)->where('is_active', true)->first();
 
@@ -62,7 +63,7 @@ class ShiftController extends BaseController
     /**
      * Starting shift
      */
-    public function stop(Request $request, int $shiftId): JsonResponse
+    public function stop(Request $request): JsonResponse
     {
         $createdAt = date('Y-m-d H:i:s');
 

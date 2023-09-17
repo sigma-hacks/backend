@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Card;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +20,7 @@ class UserSeeder extends Seeder
             'name' => 'Станислав Стрижков',
             'pin' => bcrypt('1234'),
             'code' => 'stanislav-strizhkov',
-            'company_id' => 0,
+            'company_id' => Company::DEFAULT_ID
         ]);
     }
 }
