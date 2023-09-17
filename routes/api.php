@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\BusRouteStationController;
+use App\Http\Controllers\CardsController;
 use App\Http\Controllers\CardTariffController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\CompanyServicesController;
@@ -136,3 +137,5 @@ Route::prefix('shift_route')->name('shift_route')->group(function() {
         Route::delete('{id}', [ShiftRoutesController::class, 'delete'])->name('delete');
     });
 });
+
+Route::get('cards', [CardsController::class, 'getCardsData'])->name('cards.all');

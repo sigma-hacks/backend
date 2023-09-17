@@ -51,7 +51,12 @@ class Card extends Model
      * @var array
      */
     protected $fillable = [
-
+        'expired_at',
+        'identifier',
+        'tariff_expired_at',
+        'tariff_id',
+        'user_id',
+        'is_active'
     ];
 
     /**
@@ -70,9 +75,34 @@ class Card extends Model
      */
     protected $casts = [
         'id' => 'integer',
-
+        'identifier' => 'integer',
+        'user_id' => 'integer',
+        'is_active' => 'boolean',
+        'tariff_id' => 'integer',
+        'expired_at' => 'datetime:Y-m-d H:i:s',
+        'tariff_expired_at' => 'datetime:Y-m-d H:i:s',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * Relation for getting user company
+     *
+     * @return HasOne
+     */
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    /**
+     * Relation for getting user company
+     *
+     * @return HasOne
+     */
+    public function tariff(): HasOne
+    {
+        return $this->hasOne(CardTariff::class, 'id', 'tariff_id');
+    }
 
 }
