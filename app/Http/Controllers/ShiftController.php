@@ -12,16 +12,11 @@ use Illuminate\Http\Request;
 class ShiftController extends BaseController
 {
 
-    public function getShift()
+    public function getShift(Request $request)
     {
         /** @var User $user */
-        $user = MainHelper::getUser();
+        $user = $request->user();
         $companyId = $user->company_id ?? 0;
-        $createdAt = date('Y-m-d H:i:s');
-
-        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
-            $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
-        }
 
         $shift = Shift::where('created_user_id', $user->id)->where('company_id', $companyId)->where('is_active', true)->first();
 
@@ -36,17 +31,22 @@ class ShiftController extends BaseController
      */
     public function start(Request $request): JsonResponse
     {
+        $user = $request->user();
+        $createdAt = date('Y-m-d H:i:s');
 
-        $oldShift = $this->getShift();
+        if( $request->has('request_at') && $request->has('is_deferred_request') ) {
+            $createdAt = date('Y-m-d H:i:s', strtotime($request->input('request_at')));
+        }
 
+        $oldShift = $this->getShift($request);
         if( $oldShift?->id >= 1 ) {
-            return $this->sendError('Shift was started')
+            return $this->sendError('Shift was started');
         }
 
         $shift = new Shift([
             'is_active' => true,
             'created_user_id' => $user?->id,
-            'company_id' => $companyId,
+            'company_id' => $user->company_id,
             'started_at' => $createdAt,
             'finished_at' => null,
             'created_at' => $createdAt,

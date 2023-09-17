@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('created_user_id')->index();
             $table->unsignedBigInteger('company_id')->index();
-            $table->unsignedInteger('tariff_id')->index();
-            $table->unsignedInteger('service_id')->index();
+            $table->unsignedBigInteger('tariff_id')->index();
+            $table->unsignedBigInteger('service_id')->index();
             $table->boolean('is_active')->default(1);
             $table->string('description', 2048)->nullable()->default(null);
             $table->string('name')->nullable()->default(null);
