@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RolesSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     public static array $roles = [
         [
@@ -58,7 +58,7 @@ class RolesSeeder extends Seeder
 
                 DB::table('roles')->insert($roleData);
             } catch (Exception $e) {
-                // empty catch =(
+                // Empty catch =(
             }
         }
 
