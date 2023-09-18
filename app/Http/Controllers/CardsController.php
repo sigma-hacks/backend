@@ -26,7 +26,7 @@ class CardsController extends BaseController
             $cardsQuery->orWhere('users.updated_at', '>=', $updatedAt);
         }
 
-        if( $limit ) {
+        if( $limit >= 1 ) {
             $cardsQuery->limit($limit);
         }
 
@@ -42,12 +42,16 @@ class CardsController extends BaseController
     {
 
         $updatedAt = $request->input('updated_at');
-        $limit = $request->input('limit') ?? false;
+        $limit = (int) $request->input('limit') ?? false;
         $updatedAtHash = md5($updatedAt . $limit);
 
         $cacheKey = self::CARDS_CACHE_KEY;
         if ($updatedAt) {
             $cacheKey .= "-{$updatedAtHash}";
+        }
+
+        if( $limit >= 1 ) {
+            $cacheKey .= '-' . $limit;
         }
 
         return Cache::remember($cacheKey, 60 * 60, function () use ($updatedAt,$limit) {
