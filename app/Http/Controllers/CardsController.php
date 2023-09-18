@@ -71,7 +71,7 @@ class CardsController extends BaseController
             })->all();
 
             return $this->sendResponse([
-                'tariffs' => CardTariff::select('name', 'amount', 'is_active')->where('company_id', Company::DEFAULT_ID)->get(),
+                'tariffs' => CardTariff::select('id', 'name', 'amount')->where('company_id', Company::DEFAULT_ID)->get(),
                 'names' => $names,
                 'cards' => $transformedCards,
             ]);
