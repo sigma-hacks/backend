@@ -53,9 +53,12 @@ class CompanyService extends Model
     protected $fillable = [
         'is_active',
         'company_id',
+        'created_user_id',
         'name',
+        'description',
         'price',
         'photo',
+        'conditions'
     ];
 
     /**
@@ -76,9 +79,12 @@ class CompanyService extends Model
         'id' => 'integer',
         'is_active' => 'boolean',
         'company_id' => 'integer',
+        'created_user_id' => 'integer',
         'name' => 'string',
+        'description' => 'string',
         'price' => 'integer',
         'photo' => 'string',
+        'conditions' => 'array',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
@@ -91,14 +97,23 @@ class CompanyService extends Model
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
+    /**
+     * Relationship for getting created user data
+     */
+    public function author(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'created_user_id');
+    }
+
     public const CREATING_RULES = [
         'name' => 'required|string',
+        'description' => 'required|string',
         'price' => 'integer'
     ];
 
     public const UPDATING_RULES = [
         'name' => 'string',
         'price' => 'integer',
-        'photo' => 'string',
+        'photo' => 'string'
     ];
 }

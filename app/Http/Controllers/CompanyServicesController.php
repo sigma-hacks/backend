@@ -26,7 +26,13 @@ class CompanyServicesController extends BaseController
             return $this->sendError('Not valid data', $validate->toArray(), 412);
         }
 
-        $service = new CompanyService($validate->getData());
+        $serviceData = $validate->getData();
+        $serviceData['conditions'] = (array) $request->input('conditions');
+
+        $service = new CompanyService($serviceData);
+
+        $service->created_user_id = MainHelper::getUserId();
+        $service->company_id = MainHelper::getCompanyId();
 
         try {
             $service->save();
