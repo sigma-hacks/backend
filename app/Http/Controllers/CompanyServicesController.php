@@ -66,6 +66,10 @@ class CompanyServicesController extends BaseController
 
         $data = $validate->getData();
 
+        if( $request->has('is_active') ) {
+            $service->is_active = (bool) $request->input('is_active');
+        }
+
         if ($request->has('name')) {
             $service->name = $data['name'];
         }
