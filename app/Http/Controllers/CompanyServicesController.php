@@ -123,6 +123,10 @@ class CompanyServicesController extends BaseController
             $servicesDB->where('company_id', $companyId);
         }
 
+        if(! $request->has('company_id')) {
+            $servicesDB->where('company_id', MainHelper::getCompanyId());
+        }
+
         $services = $servicesDB->paginate();
 
         return $this->sendResponse($services);
