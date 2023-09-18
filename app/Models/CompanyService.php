@@ -92,10 +92,8 @@ class CompanyService extends Model
     }
 
     public const CREATING_RULES = [
-        'company_id' => 'integer',
         'name' => 'required|string',
-        'price' => 'integer',
-        'photo' => 'string',
+        'price' => 'integer'
     ];
 
     public const UPDATING_RULES = [
