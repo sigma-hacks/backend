@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class CardsController extends BaseController
 {
-    public function getCards(string $updatedAt = null)
+    public function getCards(string $updatedAt = null, int | bool $limit = false)
     {
         $cardsQuery = DB::table('cards')
             ->select(DB::raw('users."name" as un, COALESCE(EXTRACT(epoch FROM users.birth_date)::integer, 0) as bd, cards.identifier as cn, EXTRACT(epoch FROM cards.expired_at)::integer as ed, card_tariffs."id" as ti'))
@@ -24,6 +24,10 @@ class CardsController extends BaseController
             $cardsQuery->orWhere('cards.updated_at', '>=', $updatedAt);
             $cardsQuery->orWhere('card_tariffs.updated_at', '>=', $updatedAt);
             $cardsQuery->orWhere('users.updated_at', '>=', $updatedAt);
+        }
+
+        if( $limit ) {
+            $cardsQuery->limit($limit);
         }
 
         return $cardsQuery;
@@ -38,15 +42,16 @@ class CardsController extends BaseController
     {
 
         $updatedAt = $request->input('updated_at');
-        $updatedAtHash = md5($updatedAt);
+        $limit = $request->input('limit') ?? false;
+        $updatedAtHash = md5($updatedAt . $limit);
 
         $cacheKey = self::CARDS_CACHE_KEY;
         if ($updatedAt) {
             $cacheKey .= "-{$updatedAtHash}";
         }
 
-        return Cache::remember($cacheKey, 60 * 60, function () use ($updatedAt) {
-            $cardsQuery = $this->getCards($updatedAt);
+        return Cache::remember($cacheKey, 60 * 60, function () use ($updatedAt,$limit) {
+            $cardsQuery = $this->getCards($updatedAt, $limit);
 
             $cards = $cardsQuery->get();
             $names = [];
