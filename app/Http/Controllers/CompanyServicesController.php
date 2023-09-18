@@ -69,11 +69,21 @@ class CompanyServicesController extends BaseController
         if ($request->has('name')) {
             $service->name = $data['name'];
         }
+
         if ($request->has('price')) {
             $service->price = $data['price'];
         }
+
         if ($request->has('photo')) {
             $service->photo = $data['photo'];
+        }
+
+        if ($request->has('description')) {
+            $service->price = (string) $request->input('description');
+        }
+
+        if ($request->has('conditions')) {
+            $service->conditions = (array) $request->input('conditions');
         }
 
         try {
