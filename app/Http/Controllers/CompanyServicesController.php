@@ -111,6 +111,18 @@ class CompanyServicesController extends BaseController
             }
         }
 
+        if($request->has('company_id')) {
+            $companyId = $request->input('company_id');
+
+            if( $companyId === 'self' ) {
+                $companyId = MainHelper::getCompanyId();
+            }
+
+            $companyId = (int) $companyId;
+
+            $servicesDB->where('company_id', $companyId);
+        }
+
         $services = $servicesDB->paginate();
 
         return $this->sendResponse($services);
