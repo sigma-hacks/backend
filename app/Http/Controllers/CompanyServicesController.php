@@ -31,6 +31,7 @@ class CompanyServicesController extends BaseController
 
         $service = new CompanyService($serviceData);
 
+        $service->is_active = (bool) $request->input('is_active');
         $service->created_user_id = MainHelper::getUserId();
         $service->company_id = MainHelper::getCompanyId();
 
