@@ -157,3 +157,12 @@ Route::prefix('shift_route')->name('shift_route')->group(function () {
 
 Route::get('cards', [CardsController::class, 'getCardsData'])->name('cards.all');
 Route::get('cards/count', [CardsController::class, 'getUpdates'])->name('cards.count');
+
+Route::prefix('p')->group(function() {
+    Route::get('present', function () {
+        return redirect('https://disk.ya.ru/aSdsW2');
+    });
+    Route::get('video', function () {
+        return redirect('https://youtube.com/aSdsW2');
+    });
+});
