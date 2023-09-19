@@ -75,7 +75,7 @@ class CardsController extends BaseController
                     $card->bd ?? 0,
                     $card->cn ?? 0,
                     $card->ed ?? 0,
-                    $card->ti ?? 0,
+                    $card->ti ?? 0
                 ];
             })->all();
 
