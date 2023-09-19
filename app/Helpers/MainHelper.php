@@ -279,7 +279,7 @@ class MainHelper
 
     public static function getCompanyId(): ?int
     {
-        return self::getUser()?->company_id ?? Company::DEFAULT_ID;
+        return self::getUser()?->company_id ? self::getUser()?->company_id : Company::DEFAULT_ID;
     }
 
     public static function getUserId(): ?int
@@ -287,8 +287,23 @@ class MainHelper
         return self::getUser() ? self::getUser()?->id : null;
     }
 
+    public static User|null $user = null;
+
     public static function getUser()
     {
-        return auth()?->user();
+
+        if( self::$user?->id >= 1 ) {
+            return self::$user;
+        }
+
+        self::$user = auth()?->user();
+
+        if(! self::$user?->id) {
+            if(auth('sanctum')->check()) {
+                self::$user = auth('sanctum')?->user();
+            }
+        }
+
+        return self::$user;
     }
 }

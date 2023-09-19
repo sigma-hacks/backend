@@ -139,7 +139,7 @@ class CompanyServicesController extends BaseController
 
         $services = $servicesQuery->paginate();
 
-        return $this->sendResponse($services);
+        return $this->sendResponse([MainHelper::getUser(),$services]);
     }
 
     /**
