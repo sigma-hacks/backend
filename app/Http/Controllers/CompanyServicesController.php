@@ -105,23 +105,23 @@ class CompanyServicesController extends BaseController
     public function index(Request $request): JsonResponse
     {
 
-        $servicesDB = CompanyService::query();
+        $servicesQuery = CompanyService::query();
 
         if ($request->has('name')) {
-            $servicesDB->where('name', 'LIKE', "%{$request->has('name')}%");
+            $servicesQuery->where('name', 'LIKE', "%{$request->has('name')}%");
         }
 
         if ($request->has('price')) {
             $price = $request->input('price');
 
             if (is_array($price) && count($price) == 2) {
-                $servicesDB
+                $servicesQuery
                     ->where('price', '>=', $price[0])
                     ->where('price', '<=', $price[1]);
             }
 
             if (! is_array($price)) {
-                $servicesDB->where('price', $price);
+                $servicesQuery->where('price', $price);
             }
         }
 
@@ -134,14 +134,10 @@ class CompanyServicesController extends BaseController
 
             $companyId = (int) $companyId;
 
-            $servicesDB->where('company_id', $companyId);
+            $servicesQuery->where('company_id', $companyId);
         }
 
-        if(! $request->has('company_id')) {
-            $servicesDB->where('company_id', MainHelper::getCompanyId());
-        }
-
-        $services = $servicesDB->paginate();
+        $services = $servicesQuery->paginate();
 
         return $this->sendResponse($services);
     }
